@@ -1,0 +1,96 @@
+---
+import EditorialVisual from './EditorialVisual.astro';
+import Icon from './Icon.astro';
+
+const { project, href, reverse = false } = Astro.props;
+const { data } = project;
+---
+
+<article class:list={['project-feature', { reverse }]}>
+  <a class="visual-link" href={href} aria-label={`Read ${data.title}`}>
+    <EditorialVisual thumbnail={data.thumbnail} />
+  </a>
+  <div class="project-copy">
+    <h2><a href={href}>{data.title}</a></h2>
+    <p>{data.description}</p>
+    <a class="text-link" href={href}>
+      <span>Read Project</span>
+      <Icon name="arrow-right" />
+    </a>
+  </div>
+</article>
+
+<style>
+  .project-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(18rem, 0.8fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .project-feature.reverse {
+    grid-template-columns: minmax(18rem, 0.8fr) minmax(0, 1.55fr);
+  }
+
+  .project-feature.reverse .visual-link {
+    order: 2;
+  }
+
+  .visual-link {
+    text-decoration: none;
+  }
+
+  .project-copy {
+    max-width: 28rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.75rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  h2 a {
+    text-decoration: none;
+  }
+
+  p {
+    margin: 1.25rem 0 0;
+    color: var(--color-muted);
+  }
+
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 2rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .text-link :global(.site-icon) {
+    font-size: 0.95rem;
+    transition: transform 160ms ease;
+  }
+
+  .text-link:hover :global(.site-icon),
+  .text-link:focus-visible :global(.site-icon) {
+    transform: translateX(0.15rem);
+  }
+
+  @media (max-width: 840px) {
+    .project-feature,
+    .project-feature.reverse {
+      grid-template-columns: 1fr;
+    }
+
+    .project-feature.reverse .visual-link {
+      order: initial;
+    }
+  }
+</style>

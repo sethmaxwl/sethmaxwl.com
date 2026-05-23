@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageIntro from '@components/PageIntro.astro';
+import BlogList from '@components/BlogList.astro';
+import { site } from '@data/site.js';
+import { compareByNewestDate, orderEntriesById } from '../../utils/contentOrder.js';
+
+const posts = orderEntriesById(await getCollection('blog'), site.content.blogOrder, compareByNewestDate);
+---
+
+<BaseLayout title="Blog | Seth Maxwell" description="Blog posts by Seth Maxwell.">
+  <PageIntro
+    title="Drafts That Escaped"
+    description="Short posts about software, projects, and things I'm learning."
+  />
+  <section class="container blog-section">
+    <BlogList posts={posts} />
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-section {
+    padding-bottom: clamp(5rem, 10vw, 9rem);
+  }
+</style>

@@ -1,0 +1,84 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import { site } from '@data/site.js';
+---
+
+<BaseLayout title="Contact | Seth Maxwell" description="Contact Seth Maxwell.">
+  <section class="contact-page container">
+    <h1 class="display">Let's chat!</h1>
+    <nav class="contact-list" aria-label="Contact links">
+      <a class="contact-link" href={site.links.email}>
+        <Icon name="mail" class="contact-icon" />
+        <span class="contact-copy">
+          <span class="contact-value">{site.email}</span>
+        </span>
+      </a>
+      <a class="contact-link" href={site.links.linkedin}>
+        <Icon name="linkedin" class="contact-icon" />
+        <span class="contact-copy">
+          <span class="contact-value">linkedin.com/in/sethmaxwl/</span>
+        </span>
+      </a>
+      <a class="contact-link" href={site.links.github}>
+        <Icon name="github" class="contact-icon" />
+        <span class="contact-copy">
+          <span class="contact-value">github.com/sethmaxwl</span>
+        </span>
+      </a>
+    </nav>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-page {
+    padding-block: clamp(5rem, 12vw, 9rem) clamp(5rem, 10vw, 9rem);
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin: 0;
+  }
+
+  .contact-list {
+    display: grid;
+    max-width: 42rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--color-outline);
+  }
+
+  .contact-link {
+    display: grid;
+    grid-template-columns: 1.1rem minmax(0, 1fr);
+    gap: 0.9rem;
+    align-items: start;
+    min-height: 0;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--color-outline);
+    background: transparent;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .contact-link :global(.contact-icon) {
+    color: var(--color-muted);
+    font-size: 1rem;
+    margin-top: 0.3rem;
+  }
+
+  .contact-copy {
+    min-width: 0;
+  }
+
+  .contact-link:hover .contact-value,
+  .contact-link:focus-visible .contact-value {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .contact-value {
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+</style>

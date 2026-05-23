@@ -1,0 +1,69 @@
+---
+const { name, class: className = '' } = Astro.props;
+const iconClass = ['site-icon', className].filter(Boolean).join(' ');
+---
+
+<svg
+  class={iconClass}
+  viewBox="0 0 24 24"
+  aria-hidden="true"
+  focusable="false"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  {
+    name === 'mail' && (
+      <>
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="m4 7 8 6 8-6" />
+      </>
+    )
+  }
+  {
+    name === 'github' && (
+      <path
+        fill="currentColor"
+        stroke="none"
+        d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49v-1.74c-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.85.09-.66.35-1.12.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0 1 12 7c.85 0 1.7.12 2.5.35 1.9-1.33 2.74-1.05 2.74-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.95.68 1.92v2.85c0 .27.18.59.69.49A10.23 10.23 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"
+      />
+    )
+  }
+  {
+    name === 'linkedin' && (
+      <path
+        fill="currentColor"
+        stroke="none"
+        d="M5.1 8.4h3.1V19H5.1V8.4Zm1.55-4.9a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6ZM10.25 8.4h2.95v1.45h.04c.42-.8 1.43-1.64 2.95-1.64 3.15 0 3.73 2.07 3.73 4.76V19h-3.08v-5.35c0-1.28-.02-2.91-1.77-2.91-1.78 0-2.05 1.39-2.05 2.82V19h-3.07V8.4Z"
+      />
+    )
+  }
+  {
+    name === 'arrow-right' && (
+      <>
+        <path d="M5 12h14" />
+        <path d="m13 6 6 6-6 6" />
+      </>
+    )
+  }
+  {
+    name === 'external-link' && (
+      <>
+        <path d="M15 3h6v6" />
+        <path d="M10 14 21 3" />
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      </>
+    )
+  }
+</svg>
+
+<style>
+  .site-icon {
+    display: block;
+    flex: 0 0 auto;
+    width: 1em;
+    height: 1em;
+  }
+</style>

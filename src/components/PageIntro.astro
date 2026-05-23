@@ -1,0 +1,24 @@
+---
+const { title, description } = Astro.props;
+---
+
+<section class="page-intro container">
+  <h1 class="display">{title}</h1>
+  {description && <p class="subhead">{description}</p>}
+</section>
+
+<style>
+  .page-intro {
+    padding-block: clamp(5rem, 12vw, 9rem) clamp(3rem, 8vw, 6rem);
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin: 0;
+  }
+
+  p:last-child {
+    max-width: 42rem;
+    margin: 2rem 0 0;
+  }
+</style>

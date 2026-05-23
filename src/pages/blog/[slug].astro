@@ -1,0 +1,74 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { formatContentDate } from '../../utils/formatDate.js';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} | Seth Maxwell`} description={post.data.description}>
+  <article class="blog-article container">
+    <header>
+      <h1 class="display">{post.data.title}</h1>
+      <p class="subhead">{post.data.description}</p>
+      <div class="article-meta">
+        <time datetime={post.data.date.toISOString()}>
+          {formatContentDate(post.data.date)}
+        </time>
+      </div>
+    </header>
+    <div class="article-body markdown-content">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .blog-article {
+    padding-block: clamp(5rem, 12vw, 9rem);
+  }
+
+  header {
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--color-outline);
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  .subhead {
+    margin: 2rem 0 0;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    margin-top: 2rem;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .article-body {
+    padding-top: 3rem;
+  }
+
+  .article-body :global(p) {
+    color: var(--color-muted);
+    font-size: 1.08rem;
+    line-height: 1.8;
+  }
+</style>

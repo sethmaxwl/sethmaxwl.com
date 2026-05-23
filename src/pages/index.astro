@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ProjectFeature from '@components/ProjectFeature.astro';
+import { site } from '@data/site.js';
+import { selectEntriesById } from '../utils/contentOrder.js';
+import PageIntro from '@components/PageIntro.astro';
+
+const projects = await getCollection('work');
+const featuredProjects = selectEntriesById(projects, site.home.featuredWork);
+---
+
+<BaseLayout title="Seth Maxwell | Software Engineer" description={site.description}>
+  <PageIntro
+    title="Reducing sighs per click."
+    description="I'm a software engineer at Atlassian working on Bitbucket Cloud, where I improve the code review experience and AI-assisted workflows."
+  />
+  <section class="featured-work container">
+    <h3 class="headline">What I've been up to lately:</h3>
+    <div class="project-stack">
+      {
+        featuredProjects.map((project, index) => (
+          <ProjectFeature project={project} href={`/work/${project.id}/`} reverse={index % 2 === 1} />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    padding-block: 5rem;
+  }
+
+  .hero h1 {
+    max-width: 12ch;
+    margin: 0;
+  }
+
+  .hero .subhead {
+    max-width: 46rem;
+    margin: 2rem 0 0;
+  }
+
+  .featured-work {
+    padding-bottom: clamp(5rem, 10vw, 9rem);
+  }
+
+  .project-stack {
+    display: grid;
+    gap: clamp(5rem, 10vw, 9rem);
+  }
+</style>

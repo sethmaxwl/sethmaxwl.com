@@ -1,0 +1,268 @@
+---
+import { site } from '@data/site.js';
+
+const primaryNav = site.nav.map((item) => ({
+  target: undefined,
+  rel: undefined,
+  ...item,
+}));
+---
+
+<header class="site-header" data-menu-open="false">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="Seth Maxwell home">{site.name}</a>
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="Open primary navigation"
+      aria-controls="primary-navigation"
+      aria-expanded="false"
+    >
+      <span class="nav-toggle-icon" aria-hidden="true"></span>
+    </button>
+    <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
+      {
+        primaryNav.map((item) => (
+          <a href={item.href} target={item.target} rel={item.rel}>{item.label}</a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--color-surface) 94%, white);
+    border-bottom: 1px solid var(--color-outline);
+  }
+
+  :global(html.menu-open) {
+    overflow: hidden;
+  }
+
+  .header-inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    min-height: 5rem;
+    gap: 1.5rem;
+    min-width: 0;
+  }
+
+  .brand {
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 2vw, 2rem);
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .primary-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    justify-self: end;
+    gap: 0.75rem clamp(1rem, 3vw, 2rem);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .primary-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .primary-nav a:hover,
+  .primary-nav a:focus-visible {
+    color: var(--color-ink);
+    text-decoration: underline;
+  }
+
+  .nav-toggle {
+    display: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    justify-self: end;
+    border: 1px solid var(--color-outline);
+    background: var(--color-surface-low);
+    color: var(--color-ink);
+    cursor: pointer;
+  }
+
+  .nav-toggle:hover,
+  .nav-toggle:focus-visible {
+    border-color: var(--color-outline-strong);
+    background: var(--color-surface-mid);
+  }
+
+  .nav-toggle-icon,
+  .nav-toggle-icon::before,
+  .nav-toggle-icon::after {
+    display: block;
+    width: 1.1rem;
+    height: 1px;
+    background: currentColor;
+    content: '';
+    transition:
+      transform 160ms ease,
+      opacity 160ms ease;
+  }
+
+  .nav-toggle-icon {
+    position: relative;
+  }
+
+  .nav-toggle-icon::before,
+  .nav-toggle-icon::after {
+    position: absolute;
+    left: 0;
+  }
+
+  .nav-toggle-icon::before {
+    transform: translateY(-0.38rem);
+  }
+
+  .nav-toggle-icon::after {
+    transform: translateY(0.38rem);
+  }
+
+  .site-header[data-menu-open='true'] .nav-toggle-icon {
+    background: transparent;
+  }
+
+  .site-header[data-menu-open='true'] .nav-toggle-icon::before {
+    transform: rotate(45deg);
+  }
+
+  .site-header[data-menu-open='true'] .nav-toggle-icon::after {
+    transform: rotate(-45deg);
+  }
+
+  @media (max-width: 760px) {
+    .header-inner {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-content: start;
+      min-height: 4.5rem;
+      gap: 0.85rem 1rem;
+      padding-block: 0.85rem;
+    }
+
+    .brand {
+      min-width: 0;
+      display: flex;
+      margin-block: auto;
+    }
+
+    .site-header[data-menu-open='true'] {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      overflow-y: auto;
+      background: var(--color-surface);
+    }
+
+    .site-header[data-menu-open='true'] .header-inner {
+      align-items: start;
+      min-height: 100svh;
+      grid-template-rows: auto auto;
+    }
+
+    .primary-nav {
+      display: none;
+      grid-column: 1 / -1;
+      grid-template-columns: minmax(0, 1fr);
+      width: 100%;
+      justify-self: stretch;
+      border-top: 1px solid var(--color-outline);
+      gap: 0;
+      line-height: 1;
+    }
+
+    .site-header[data-menu-open='true'] .primary-nav {
+      display: grid;
+    }
+
+    .primary-nav a {
+      position: relative;
+      justify-content: space-between;
+      min-height: 4.25rem;
+      padding-inline: 0.15rem;
+      color: var(--color-ink);
+      font-size: clamp(1.2rem, 5vw, 1.65rem);
+      letter-spacing: 0.12em;
+    }
+
+    .primary-nav a:hover,
+    .primary-nav a:focus-visible {
+      background: color-mix(in srgb, var(--color-surface-low) 72%, transparent);
+      text-decoration: none;
+    }
+
+    .primary-nav a::after {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      background: var(--color-outline);
+      content: '';
+    }
+
+    .nav-toggle {
+      display: grid;
+      width: 3rem;
+      height: 3rem;
+      background: transparent;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .brand {
+      font-size: clamp(1.6rem, 9vw, 2rem);
+    }
+  }
+</style>
+
+<script>
+  const siteHeader = document.querySelector('.site-header');
+  const navToggle = siteHeader?.querySelector('.nav-toggle');
+  const primaryNav = siteHeader?.querySelector('#primary-navigation');
+
+  const setMenuOpen = (isOpen: boolean) => {
+    siteHeader?.setAttribute('data-menu-open', String(isOpen));
+    navToggle?.setAttribute('aria-expanded', String(isOpen));
+    navToggle?.setAttribute(
+      'aria-label',
+      `${isOpen ? 'Close' : 'Open'} primary navigation`
+    );
+    document.documentElement.classList.toggle('menu-open', isOpen);
+  };
+
+  navToggle?.addEventListener('click', () => {
+    const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+    setMenuOpen(!isOpen);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      setMenuOpen(false);
+    }
+  });
+
+  primaryNav?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setMenuOpen(false));
+  });
+
+  window.matchMedia('(min-width: 761px)').addEventListener('change', () => {
+    setMenuOpen(false);
+  });
+</script>

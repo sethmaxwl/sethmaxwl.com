@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageIntro from '@components/PageIntro.astro';
+import ProjectFeature from '@components/ProjectFeature.astro';
+import { site } from '@data/site.js';
+import { compareByTitle, orderEntriesById } from '../../utils/contentOrder.js';
+
+const projects = orderEntriesById(await getCollection('work'), site.content.workOrder, compareByTitle);
+---
+
+<BaseLayout title="Work | Seth Maxwell" description="Selected engineering projects by Seth Maxwell.">
+  <PageIntro
+    title="Shipping Department"
+    description="A collection of projects I've lead or contributed to."
+  />
+  <section class="container work-list">
+    {
+      projects.map((project, index) => (
+        <ProjectFeature project={project} href={`/work/${project.id}/`} reverse={index % 2 === 1} />
+      ))
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .work-list {
+    display: grid;
+    gap: clamp(5rem, 10vw, 9rem);
+    padding-bottom: clamp(5rem, 10vw, 9rem);
+  }
+</style>

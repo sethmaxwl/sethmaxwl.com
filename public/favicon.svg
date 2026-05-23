@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Seth Maxwell">
+  <rect width="64" height="64" rx="10" fill="#1c1b1b" />
+  <path
+    d="M44 19 C39 13 26 13 21 21 C15 31 43 29 43 42 C43 53 25 53 20 44"
+    fill="none"
+    stroke="#fdf8f7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="8"
+  />
+</svg>

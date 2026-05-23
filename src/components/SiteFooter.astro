@@ -1,0 +1,96 @@
+---
+import { site } from '@data/site.js';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <a class="footer-brand" href="/">{site.name}</a>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      {
+        site.footerLinks.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))
+      }
+    </nav>
+    <p>&copy; {currentYear}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    background: var(--color-surface-low);
+    border-top: 1px solid var(--color-outline);
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 2rem;
+    padding-block: 2rem;
+  }
+
+  .footer-brand {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    text-decoration: none;
+  }
+
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .footer-nav a {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-muted);
+  }
+
+  p {
+    justify-self: end;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 760px) {
+    .footer-inner {
+      align-items: start;
+      justify-items: start;
+      gap: 1.25rem;
+      padding-block: 1.5rem;
+    }
+
+    .footer-nav {
+      justify-content: flex-start;
+      row-gap: 0.75rem;
+    }
+
+    p {
+      justify-self: start;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: 100%;
+      gap: 0.75rem 1.25rem;
+    }
+
+    .footer-nav a {
+      min-height: 2.5rem;
+    }
+  }
+</style>

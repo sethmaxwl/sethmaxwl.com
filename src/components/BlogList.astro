@@ -1,0 +1,78 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatContentDate } from '../utils/formatDate.js';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="blog-list">
+  {
+    posts.map((post) => (
+      <article>
+        <a href={`/blog/${post.id}/`}>
+          <time datetime={post.data.date.toISOString()}>{formatContentDate(post.data.date)}</time>
+          <h2>{post.data.title}</h2>
+          <p>{post.data.description}</p>
+        </a>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .blog-list {
+    border-top: 1px solid var(--color-outline);
+  }
+
+  article {
+    border-bottom: 1px solid var(--color-outline);
+  }
+
+  a {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: 2rem;
+    padding-block: 2rem;
+    text-decoration: none;
+  }
+
+  time,
+  span {
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: 0;
+  }
+
+  p {
+    grid-column: 2 / 3;
+    margin: -0.75rem 0 0;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 840px) {
+    a {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    p {
+      grid-column: auto;
+      margin: 0;
+    }
+  }
+</style>

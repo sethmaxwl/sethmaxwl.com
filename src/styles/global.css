@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-surface: #fdf8f7;
+  --color-surface-low: #f7f3f2;
+  --color-surface-mid: #f1edec;
+  --color-surface-high: #ebe7e6;
+  --color-code-surface: #f5eeed;
+  --color-code-border: #d8d0c8;
+  --color-code-ink: #302927;
+  --color-ink: #1c1b1b;
+  --color-muted: #4a4640;
+  --color-outline: #ccc5bd;
+  --color-outline-strong: #7b766f;
+  --color-accent: #6c5c47;
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body: 'Public Sans', Arial, sans-serif;
+  --container: 820px;
+  --margin-desktop: 64px;
+  --margin-mobile: 20px;
+  --gutter: 32px;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.24em;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border-radius: 0;
+}
+
+.site-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: min(100% - calc(var(--margin-mobile) * 2), var(--container));
+  margin-inline: auto;
+}
+
+@media (min-width: 760px) {
+  .container {
+    width: min(100% - calc(var(--margin-desktop) * 2), var(--container));
+  }
+}
+
+.display {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 6.25rem);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.subhead {
+  color: var(--color-muted);
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.7;
+}
+
+.markdown-content :where(h1, h2, h3, h4, h5, h6) {
+  margin: 3rem 0 1rem;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.markdown-content :where(h1, h2, h3, h4, h5, h6):first-child {
+  margin-top: 0;
+}
+
+.markdown-content h1 {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+}
+
+.markdown-content h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.markdown-content h3 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.markdown-content :where(h4, h5, h6) {
+  font-size: 1.25rem;
+}
+
+.markdown-content :where(blockquote) {
+  position: relative;
+  margin: 1.2rem 0;
+  padding: 0.15rem 0 0.15rem 2.75rem;
+  color: var(--color-ink);
+}
+
+.markdown-content :where(blockquote)::before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -0.05rem;
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 10vw, 7rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.markdown-content :where(blockquote > :first-child) {
+  margin-top: 0;
+}
+
+.markdown-content :where(blockquote > :last-child) {
+  margin-bottom: 0;
+}
+
+.markdown-content :where(pre) {
+  margin: 1.75rem 0;
+  padding: 1.1rem 1.2rem;
+  overflow-x: auto;
+  border: 1px solid var(--color-code-border);
+  border-radius: 6px;
+  background: var(--color-code-surface) !important;
+  color: var(--color-code-ink);
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.markdown-content :where(pre code) {
+  display: block;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.markdown-content :where(code) {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.markdown-content :not(pre) > code {
+  padding: 0.08em 0.32em;
+  border: 1px solid var(--color-code-border);
+  border-radius: 4px;
+  background: var(--color-code-surface);
+  color: var(--color-code-ink);
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  transform: translateY(-200%);
+  background: var(--color-ink);
+  color: var(--color-surface);
+  padding: 0.75rem 1rem;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
