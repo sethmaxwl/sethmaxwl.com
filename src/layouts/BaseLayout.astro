@@ -7,6 +7,9 @@ const {
   title = 'Seth Maxwell',
   description = 'Software engineer at Atlassian working on Bitbucket Cloud, frontend architecture, and developer tools.'
 } = Astro.props;
+
+const googleAnalyticsId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID?.trim();
+const enableGoogleAnalytics = /^G-[A-Z0-9]+$/.test(googleAnalyticsId ?? '');
 ---
 
 <!doctype html>
@@ -22,6 +25,25 @@ const {
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="theme-color" content="#fdf8f7" />
     <title>{title}</title>
+    {
+      enableGoogleAnalytics && (
+        <>
+          <script
+            async
+            is:inline
+            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+          ></script>
+          <script is:inline define:vars={{ googleAnalyticsId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              window.dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', googleAnalyticsId);
+          </script>
+        </>
+      )
+    }
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

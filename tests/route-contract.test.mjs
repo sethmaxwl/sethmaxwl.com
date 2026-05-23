@@ -77,10 +77,15 @@ test('site header and footer define polished mobile navigation layouts', () => {
   assert.match(header, /\.primary-nav a::after[\s\S]*height:\s*1px/);
 
   assert.match(footer, /@media \(max-width: 760px\)/);
-  assert.match(footer, /\.footer-inner[\s\S]*align-items:\s*start/);
+  assert.match(footer, /\.footer-inner[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\) auto/);
+  assert.match(footer, /\.footer-inner[\s\S]*grid-template-areas:[\s\S]*['"]brand copyright['"][\s\S]*['"]nav nav['"]/);
+  assert.match(footer, /\.footer-brand[\s\S]*grid-area:\s*brand/);
+  assert.match(footer, /\.footer-brand[\s\S]*white-space:\s*nowrap/);
+  assert.match(footer, /\.footer-nav[\s\S]*grid-area:\s*nav/);
+  assert.match(footer, /\.footer-nav[\s\S]*width:\s*100%/);
   assert.match(footer, /@media \(max-width: 520px\)/);
-  assert.match(footer, /grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
-  assert.match(footer, /\.footer-nav a[\s\S]*min-height:\s*2\.5rem/);
+  assert.match(footer, /\.footer-nav[\s\S]*justify-content:\s*space-between/);
+  assert.match(footer, /\.footer-nav a[\s\S]*min-height:\s*2\.25rem/);
 });
 
 test('contact page presents a compact set of contact links', () => {
