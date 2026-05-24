@@ -21,11 +21,18 @@ jobs:
       PUBLIC_GOOGLE_ANALYTICS_ID: G-K311DKX63B
     steps:
       - uses: actions/checkout@v6.0.2
-      - uses: actions/setup-node@v6.4.0
+      - name: Set up Node.js
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Restore Yarn cache
+        uses: actions/setup-node@v6.4.0
         with:
           node-version-file: .node-version
           cache: yarn
-      - run: corepack enable
       - run: yarn install --immutable
       - run: yarn playwright install --with-deps chromium
       - run: yarn ci:verify
