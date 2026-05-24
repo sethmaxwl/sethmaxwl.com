@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import { remarkBrewfileCodeLanguage } from './src/markdown/remarkBrewfileCodeLanguage.mjs';
+import { remarkBrewfileCodeLanguage } from './src/markdown/remarkBrewfileCodeLanguage.ts';
 
 export default defineConfig({
   site: 'https://sethmaxwl.com',

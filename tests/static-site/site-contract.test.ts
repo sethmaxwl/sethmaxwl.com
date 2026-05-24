@@ -37,7 +37,7 @@ test('dist contains expected routes and required static files', async () => {
 
 test('dist pages do not reference missing internal links or assets', async () => {
   const htmlFiles = await findHtmlFiles(distRoot);
-  const failures = [];
+  const failures: string[] = [];
 
   for (const htmlFile of htmlFiles) {
     const html = await readFile(htmlFile, 'utf8');
@@ -71,7 +71,7 @@ test('dist pages do not reference missing internal links or assets', async () =>
   assert.deepEqual(failures, []);
 });
 
-async function assertFileExists(filePath) {
+async function assertFileExists(filePath: string): Promise<void> {
   try {
     await access(filePath);
   } catch {
@@ -79,7 +79,7 @@ async function assertFileExists(filePath) {
   }
 }
 
-async function contentRoutes(contentDirectory, routePrefix) {
+async function contentRoutes(contentDirectory: string, routePrefix: string): Promise<string[]> {
   const absoluteDirectory = path.join(repoRoot, contentDirectory);
   const entries = await readdir(absoluteDirectory, { withFileTypes: true });
 
@@ -89,9 +89,9 @@ async function contentRoutes(contentDirectory, routePrefix) {
     .toSorted();
 }
 
-async function findHtmlFiles(directory) {
+async function findHtmlFiles(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
-  const files = [];
+  const files: string[] = [];
 
   for (const entry of entries) {
     const fullPath = path.join(directory, entry.name);
@@ -106,8 +106,8 @@ async function findHtmlFiles(directory) {
   return files.toSorted();
 }
 
-function extractReferencedUrls(html) {
-  const urls = [];
+function extractReferencedUrls(html: string): string[] {
+  const urls: string[] = [];
   const attributePattern = /\s(?:href|src)=["']([^"']+)["']/gi;
   const srcsetPattern = /\ssrcset=["']([^"']+)["']/gi;
 
@@ -127,11 +127,14 @@ function extractReferencedUrls(html) {
   return urls;
 }
 
-function decodeHtmlAttribute(value) {
+function decodeHtmlAttribute(value: string): string {
   return value.replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('&#39;', "'").trim();
 }
 
-function resolveInternalReference(rawUrl, currentRoute) {
+function resolveInternalReference(
+  rawUrl: string,
+  currentRoute: string,
+): { pathname: string; hash: string } | undefined {
   if (!rawUrl || rawUrl.startsWith('data:') || rawUrl.startsWith('javascript:')) {
     return undefined;
   }
@@ -154,7 +157,7 @@ function resolveInternalReference(rawUrl, currentRoute) {
   };
 }
 
-async function findDistTargetPath(pathname) {
+async function findDistTargetPath(pathname: string): Promise<string | undefined> {
   for (const candidate of distTargetCandidates(pathname)) {
     try {
       await access(candidate);
@@ -167,7 +170,7 @@ async function findDistTargetPath(pathname) {
   return undefined;
 }
 
-function distTargetCandidates(pathname) {
+function distTargetCandidates(pathname: string): string[] {
   const relativePath = pathname.replace(/^\/+/, '');
 
   if (!relativePath || pathname.endsWith('/')) {
@@ -184,12 +187,12 @@ function distTargetCandidates(pathname) {
   ];
 }
 
-function routeToHtmlPath(route) {
+function routeToHtmlPath(route: string): string {
   const relativePath = route.replace(/^\/+/, '');
   return path.join(distRoot, relativePath, 'index.html');
 }
 
-function routeForHtmlFile(htmlFile) {
+function routeForHtmlFile(htmlFile: string): string {
   const relativePath = path.relative(distRoot, htmlFile).split(path.sep).join('/');
 
   if (relativePath === 'index.html') {
@@ -203,7 +206,7 @@ function routeForHtmlFile(htmlFile) {
   return `/${relativePath.replace(/\.html$/, '')}`;
 }
 
-function hasFragmentTarget(html, hash) {
+function hasFragmentTarget(html: string, hash: string): boolean {
   const id = decodeURIComponent(hash.slice(1));
   const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   return new RegExp(`\\s(?:id|name)=["']${escapedId}["']`).test(html);

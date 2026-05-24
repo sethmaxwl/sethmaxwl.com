@@ -1,6 +1,13 @@
 const brewfileDirectivePattern = /^(brew|cask|tap|mas|vscode|font|whalebrew)\s+['"][^'"]+['"]/;
 
-export function isBrewfileCode(value = '') {
+type MarkdownNode = {
+  type?: string;
+  lang?: string | null;
+  value?: string;
+  children?: readonly MarkdownNode[];
+};
+
+export function isBrewfileCode(value = ''): boolean {
   const lines = value
     .split('\n')
     .map((line) => line.trim())
@@ -13,8 +20,8 @@ export function isBrewfileCode(value = '') {
 }
 
 export function remarkBrewfileCodeLanguage() {
-  return (tree) => {
-    function visit(node) {
+  return (tree: MarkdownNode): void => {
+    function visit(node: MarkdownNode | null | undefined): void {
       if (!node || typeof node !== 'object') {
         return;
       }

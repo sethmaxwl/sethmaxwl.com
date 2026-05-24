@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   isBrewfileCode,
   remarkBrewfileCodeLanguage,
-} from '../src/markdown/remarkBrewfileCodeLanguage.mjs';
+} from '../src/markdown/remarkBrewfileCodeLanguage.ts';
 
 test('isBrewfileCode accepts common Brewfile directives with comments', () => {
   const value = `
@@ -24,7 +24,10 @@ test('isBrewfileCode rejects empty and unrelated code blocks', () => {
 });
 
 test('remarkBrewfileCodeLanguage labels unlabeled Brewfile code blocks only', () => {
-  const tree = {
+  const tree: {
+    type: 'root';
+    children: Array<{ type: 'code'; lang?: string; value: string }>;
+  } = {
     type: 'root',
     children: [
       { type: 'code', value: 'brew "git"' },

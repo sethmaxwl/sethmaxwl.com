@@ -9,7 +9,7 @@ const routes = [
 
 for (const route of routes) {
   test(`${route.path} renders without browser errors`, async ({ page }) => {
-    const browserErrors = [];
+    const browserErrors: string[] = [];
 
     page.on('console', (message) => {
       if (message.type() === 'error') {
