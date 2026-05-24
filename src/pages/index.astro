@@ -2,8 +2,8 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import ProjectFeature from '@components/ProjectFeature.astro';
-import { site } from '@data/site.js';
-import { selectEntriesById } from '../utils/contentOrder.js';
+import { site } from '@data/site';
+import { selectEntriesById } from '../utils/contentOrder';
 import PageIntro from '@components/PageIntro.astro';
 
 const projects = await getCollection('work');
@@ -20,7 +20,11 @@ const featuredProjects = selectEntriesById(projects, site.home.featuredWork);
     <div class="project-stack">
       {
         featuredProjects.map((project, index) => (
-          <ProjectFeature project={project} href={`/work/${project.id}/`} reverse={index % 2 === 1} />
+          <ProjectFeature
+            project={project}
+            href={`/work/${project.id}/`}
+            reverse={index % 2 === 1}
+          />
         ))
       }
     </div>

@@ -7,18 +7,19 @@ const work = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    thumbnail: z
-      .object({
-        src: z.string().min(1),
-        alt: z.string().min(1)
-      }),
+    thumbnail: z.object({
+      src: z.string().min(1),
+      alt: z.string().min(1),
+      width: z.number().int().positive(),
+      height: z.number().int().positive(),
+    }),
     externalLink: z
       .object({
         label: z.string().min(1),
-        href: z.url()
+        href: z.url(),
       })
-      .optional()
-  })
+      .optional(),
+  }),
 });
 
 const blog = defineCollection({
@@ -27,7 +28,7 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.date(),
-  })
+  }),
 });
 
 export const collections = { work, blog };

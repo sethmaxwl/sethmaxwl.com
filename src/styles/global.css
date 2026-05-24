@@ -168,7 +168,8 @@ button {
   border-radius: 6px;
   background: var(--color-code-surface) !important;
   color: var(--color-code-ink);
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.92rem;
   line-height: 1.7;
 }
@@ -184,7 +185,8 @@ button {
 }
 
 .markdown-content :where(code) {
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
 }
 
 .markdown-content :not(pre) > code {

@@ -1,14 +1,18 @@
 ---
-title: "Draft Pull Requests"
-description: "How I helped developers share work early and signal intent clearly."
+title: 'Draft Pull Requests'
+description: 'How I helped developers share work early and signal intent clearly.'
 thumbnail:
-  src: "/images/draft-pull-requests.png"
-  alt: "A draft pull request button next to the create pull request button."
+  src: '/images/draft-pull-requests.png'
+  alt: 'A draft pull request button next to the create pull request button.'
+  width: 695
+  height: 188
 externalLink:
-  href: "https://www.atlassian.com/blog/bitbucket/draft-pull-requests"
-  label: "Say hello to draft pull requests! And one more thing we think you’ll love."
+  href: 'https://www.atlassian.com/blog/bitbucket/draft-pull-requests'
+  label: 'Say hello to draft pull requests! And one more thing we think you’ll love.'
 ---
+
 ## The "WIP" Symptom
+
 Opening a pull request usually implies that the work is ready for review.
 
 This is the assumption that many reviewers have, at least. Developers often want
@@ -24,7 +28,7 @@ protections against someone accidentally merging a pull request with WIP in the 
 There's also no way to filter out WIP pull requests from your review stack, causing
 friction for both pull request authors and reviewers.
 
-## Making WIP Feel Native 
+## Making WIP Feel Native
 
 The goal was to make in-progress work a first-class part of the pull request flow.
 A draft PR should be easy to create, clearly marked, and simple to move into a
@@ -44,4 +48,4 @@ workflow that we had been using for years.
 
 Following the rollout of this project, we noticed that 1 in 5 of Atlassian-created
 pull requests are opened as a draft, and 62% of all Bitbucket users who have opened
-a draft pull request go on to use it repeatedly and often. 
+a draft pull request go on to use it repeatedly and often.

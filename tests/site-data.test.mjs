@@ -1,33 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { site } from '../src/data/site.ts';
 
-test('site metadata exposes Seth contact and navigation details', async () => {
-  const { site } = await import('../src/data/site.js');
-
+test('site metadata exposes contact links and primary navigation', () => {
   assert.equal(site.name, 'Seth Maxwell');
   assert.equal(site.email, 'sethmaxwl@gmail.com');
+  assert.equal(site.links.email, 'mailto:sethmaxwl@gmail.com');
   assert.equal(site.links.github, 'https://github.com/sethmaxwl');
   assert.equal(site.links.linkedin, 'https://linkedin.com/in/sethmaxwl/');
-  assert.deepEqual(site.nav.map((item) => item.href), [
-    '/work/',
-    '/blog/',
-    '/contact/',
-  ]);
-  assert.equal(site.nav.find((item) => item.href === '/blog/')?.label, 'Blog');
+  assert.deepEqual(
+    site.nav.map((item) => item.href),
+    ['/work/', '/blog/', '/contact/'],
+  );
 });
 
-test('site metadata controls content ordering and home featured work', async () => {
-  const { site } = await import('../src/data/site.js');
-
-  assert.deepEqual(site.content.workOrder, [
-    'starred-objects',
-    'draft-pull-requests',
-  ]);
-  assert.deepEqual(site.content.blogOrder, [
-    'mac-app-maintenance-on-tap',
-  ]);
-  assert.deepEqual(site.home.featuredWork, [
-    'starred-objects',
-    'draft-pull-requests',
-  ]);
+test('site metadata keeps curated content ordering in one place', () => {
+  assert.deepEqual(site.content.workOrder, ['starred-objects', 'draft-pull-requests']);
+  assert.deepEqual(site.content.blogOrder, ['mac-app-maintenance-on-tap']);
+  assert.deepEqual(site.home.featuredWork, ['starred-objects', 'draft-pull-requests']);
 });

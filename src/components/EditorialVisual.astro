@@ -1,9 +1,25 @@
 ---
+import type { CollectionEntry } from 'astro:content';
+
+type Thumbnail = CollectionEntry<'work'>['data']['thumbnail'];
+
+interface Props {
+  thumbnail: Thumbnail;
+}
+
 const { thumbnail } = Astro.props;
 ---
 
 <figure class="editorial-visual">
-  <img class="editorial-thumbnail" src={thumbnail.src} alt={thumbnail.alt} loading="lazy" decoding="async" />
+  <img
+    class="editorial-thumbnail"
+    src={thumbnail.src}
+    alt={thumbnail.alt}
+    width={thumbnail.width}
+    height={thumbnail.height}
+    loading="lazy"
+    decoding="async"
+  />
 </figure>
 
 <style>

@@ -4,3 +4,8 @@ docs/
 .astro/
 .superpowers/
 .DS_Store
+playwright-report/
+test-results/
+.yarn/install-state.gz
+.yarn/build-state.yml
+.yarn/unplugged/

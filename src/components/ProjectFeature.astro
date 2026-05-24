@@ -1,6 +1,13 @@
 ---
+import type { CollectionEntry } from 'astro:content';
 import EditorialVisual from './EditorialVisual.astro';
 import Icon from './Icon.astro';
+
+interface Props {
+  project: CollectionEntry<'work'>;
+  href: string;
+  reverse?: boolean;
+}
 
 const { project, href, reverse = false } = Astro.props;
 const { data } = project;

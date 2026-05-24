@@ -1,5 +1,5 @@
 ---
-import { site } from '@data/site.js';
+import { site } from '@data/site';
 
 const currentYear = new Date().getFullYear();
 ---
@@ -8,11 +8,7 @@ const currentYear = new Date().getFullYear();
   <div class="container footer-inner">
     <a class="footer-brand" href="/">{site.name}</a>
     <nav class="footer-nav" aria-label="Footer navigation">
-      {
-        site.footerLinks.map((item) => (
-          <a href={item.href}>{item.label}</a>
-        ))
-      }
+      {site.footerLinks.map((item) => <a href={item.href}>{item.label}</a>)}
     </nav>
     <p>&copy; {currentYear}</p>
   </div>

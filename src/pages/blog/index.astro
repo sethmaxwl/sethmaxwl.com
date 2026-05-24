@@ -3,10 +3,14 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageIntro from '@components/PageIntro.astro';
 import BlogList from '@components/BlogList.astro';
-import { site } from '@data/site.js';
-import { compareByNewestDate, orderEntriesById } from '../../utils/contentOrder.js';
+import { site } from '@data/site';
+import { compareByNewestDate, orderEntriesById } from '../../utils/contentOrder';
 
-const posts = orderEntriesById(await getCollection('blog'), site.content.blogOrder, compareByNewestDate);
+const posts = orderEntriesById(
+  await getCollection('blog'),
+  site.content.blogOrder,
+  compareByNewestDate,
+);
 ---
 
 <BaseLayout title="Blog | Seth Maxwell" description="Blog posts by Seth Maxwell.">

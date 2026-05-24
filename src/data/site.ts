@@ -19,18 +19,10 @@ export const site = {
     { label: 'GitHub', href: 'https://github.com/sethmaxwl' },
   ],
   content: {
-    workOrder: [
-      'starred-objects',
-      'draft-pull-requests',
-    ],
-    blogOrder: [
-      'mac-app-maintenance-on-tap',
-    ],
+    workOrder: ['starred-objects', 'draft-pull-requests'],
+    blogOrder: ['mac-app-maintenance-on-tap'],
   },
   home: {
-    featuredWork: [
-      'starred-objects',
-      'draft-pull-requests',
-    ],
+    featuredWork: ['starred-objects', 'draft-pull-requests'],
   },
-};
+} as const;

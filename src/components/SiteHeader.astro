@@ -1,5 +1,5 @@
 ---
-import { site } from '@data/site.js';
+import { site } from '@data/site';
 
 const primaryNav = site.nav.map((item) => ({
   target: undefined,
@@ -23,7 +23,9 @@ const primaryNav = site.nav.map((item) => ({
     <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
       {
         primaryNav.map((item) => (
-          <a href={item.href} target={item.target} rel={item.rel}>{item.label}</a>
+          <a href={item.href} target={item.target} rel={item.rel}>
+            {item.label}
+          </a>
         ))
       }
     </nav>
@@ -240,10 +242,7 @@ const primaryNav = site.nav.map((item) => ({
   const setMenuOpen = (isOpen: boolean) => {
     siteHeader?.setAttribute('data-menu-open', String(isOpen));
     navToggle?.setAttribute('aria-expanded', String(isOpen));
-    navToggle?.setAttribute(
-      'aria-label',
-      `${isOpen ? 'Close' : 'Open'} primary navigation`
-    );
+    navToggle?.setAttribute('aria-label', `${isOpen ? 'Close' : 'Open'} primary navigation`);
     document.documentElement.classList.toggle('menu-open', isOpen);
   };
 

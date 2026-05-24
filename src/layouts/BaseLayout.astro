@@ -3,13 +3,28 @@ import SiteHeader from '@components/SiteHeader.astro';
 import SiteFooter from '@components/SiteFooter.astro';
 import '@styles/global.css';
 
+interface Props {
+  title?: string;
+  description?: string;
+}
+
 const {
   title = 'Seth Maxwell',
-  description = 'Software engineer at Atlassian working on Bitbucket Cloud, frontend architecture, and developer tools.'
+  description = 'Software engineer at Atlassian working on Bitbucket Cloud, frontend architecture, and developer tools.',
 } = Astro.props;
 
 const googleAnalyticsId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID?.trim();
 const enableGoogleAnalytics = /^G-[A-Z0-9]+$/.test(googleAnalyticsId ?? '');
+const googleAnalyticsScript = enableGoogleAnalytics
+  ? `
+window.dataLayer = window.dataLayer || [];
+function gtag() {
+  window.dataLayer.push(arguments);
+}
+gtag('js', new Date());
+gtag('config', ${JSON.stringify(googleAnalyticsId)});
+`
+  : '';
 ---
 
 <!doctype html>
@@ -32,15 +47,8 @@ const enableGoogleAnalytics = /^G-[A-Z0-9]+$/.test(googleAnalyticsId ?? '');
             async
             is:inline
             src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
-          ></script>
-          <script is:inline define:vars={{ googleAnalyticsId }}>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-              window.dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
-            gtag('config', googleAnalyticsId);
-          </script>
+          />
+          <script is:inline set:html={googleAnalyticsScript} />
         </>
       )
     }
