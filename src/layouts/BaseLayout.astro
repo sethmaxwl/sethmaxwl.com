@@ -1,18 +1,28 @@
 ---
 import SiteHeader from '@components/SiteHeader.astro';
 import SiteFooter from '@components/SiteFooter.astro';
+import { Font } from 'astro:assets';
 import '@styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
   title = 'Seth Maxwell',
   description = 'Software engineer at Atlassian working on Bitbucket Cloud, frontend architecture, and developer tools.',
+  image = '/og-image.png',
+  type = 'website',
+  structuredData,
 } = Astro.props;
 
+const siteUrl = Astro.site ?? new URL('https://sethmaxwl.com');
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const socialImageUrl = new URL(image, siteUrl).href;
 const googleAnalyticsId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID?.trim();
 const enableGoogleAnalytics = /^G-[A-Z0-9]+$/.test(googleAnalyticsId ?? '');
 const googleAnalyticsScript = enableGoogleAnalytics
@@ -25,6 +35,9 @@ gtag('js', new Date());
 gtag('config', ${JSON.stringify(googleAnalyticsId)});
 `
   : '';
+const structuredDataJson = structuredData
+  ? JSON.stringify(structuredData).replace(/</g, '\\u003c')
+  : undefined;
 ---
 
 <!doctype html>
@@ -32,14 +45,34 @@ gtag('config', ${JSON.stringify(googleAnalyticsId)});
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
+    <meta name="author" content="Seth Maxwell" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href={canonicalUrl} />
+    <Font cssVariable="--font-display" />
+    <Font cssVariable="--font-body" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#fdf8f7" />
+    <meta property="og:site_name" content="Seth Maxwell" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
     <title>{title}</title>
+    {
+      structuredDataJson && (
+        <script is:inline type="application/ld+json" set:html={structuredDataJson} />
+      )
+    }
     {
       enableGoogleAnalytics && (
         <>

@@ -8,9 +8,37 @@ import PageIntro from '@components/PageIntro.astro';
 
 const projects = await getCollection('work');
 const featuredProjects = selectEntriesById(projects, site.home.featuredWork);
+const siteUrl = Astro.site ?? new URL('https://sethmaxwl.com');
+const homeUrl = new URL('/', siteUrl).href;
+const sameAs = [site.links.github, site.links.linkedin];
+const profileStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  '@id': `${homeUrl}#profile`,
+  url: homeUrl,
+  name: 'Seth Maxwell | Software Engineer',
+  description: site.description,
+  mainEntity: {
+    '@type': 'Person',
+    '@id': `${homeUrl}#person`,
+    name: site.name,
+    url: homeUrl,
+    jobTitle: 'Software Engineer',
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Atlassian',
+    },
+    sameAs,
+  },
+};
 ---
 
-<BaseLayout title="Seth Maxwell | Software Engineer" description={site.description}>
+<BaseLayout
+  title="Seth Maxwell | Software Engineer"
+  description={site.description}
+  type="profile"
+  structuredData={profileStructuredData}
+>
   <PageIntro
     title="Reducing sighs per click."
     description="I'm a software engineer at Atlassian working on Bitbucket Cloud, where I improve the code review experience and AI-assisted workflows."

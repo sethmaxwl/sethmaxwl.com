@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap');
-
 :root {
   --color-surface: #fdf8f7;
   --color-surface-low: #f7f3f2;
@@ -13,8 +11,6 @@
   --color-outline: #ccc5bd;
   --color-outline-strong: #7b766f;
   --color-accent: #6c5c47;
-  --font-display: 'Newsreader', Georgia, serif;
-  --font-body: 'Public Sans', Arial, sans-serif;
   --container: 820px;
   --margin-desktop: 64px;
   --margin-mobile: 20px;

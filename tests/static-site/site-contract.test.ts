@@ -30,6 +30,8 @@ test('dist contains expected routes and required static files', async () => {
     'favicon-16x16.png',
     'favicon-32x32.png',
     'apple-touch-icon.png',
+    'og-image.png',
+    'robots.txt',
   ]) {
     await assertFileExists(path.join(distRoot, filePath));
   }
@@ -71,6 +73,137 @@ test('dist pages do not reference missing internal links or assets', async () =>
   assert.deepEqual(failures, []);
 });
 
+test('dist includes a sitemap with public page URLs', async () => {
+  const sitemapIndex = await readFile(path.join(distRoot, 'sitemap-index.xml'), 'utf8');
+  assert.match(sitemapIndex, /<loc>https:\/\/sethmaxwl\.com\/sitemap-0\.xml<\/loc>/);
+
+  const sitemap = await readFile(path.join(distRoot, 'sitemap-0.xml'), 'utf8');
+
+  for (const route of [
+    '/',
+    '/work/',
+    '/work/starred-objects/',
+    '/work/draft-pull-requests/',
+    '/blog/',
+    '/blog/mac-app-maintenance-on-tap/',
+    '/contact/',
+  ]) {
+    assert.match(sitemap, new RegExp(`<loc>${origin}${route}</loc>`));
+  }
+});
+
+test('dist exposes robots.txt with sitemap discovery', async () => {
+  const robots = await readFile(path.join(distRoot, 'robots.txt'), 'utf8');
+
+  assert.match(robots, /^User-agent: \*$/m);
+  assert.match(robots, /^Allow: \/$/m);
+  assert.match(robots, /^Sitemap: https:\/\/sethmaxwl\.com\/sitemap-index\.xml$/m);
+});
+
+test('dist pages include canonical URLs and social preview metadata', async () => {
+  const pages = [
+    {
+      route: '/',
+      title: 'Seth Maxwell | Software Engineer',
+      description:
+        'Software engineer at Atlassian working on Bitbucket Cloud, frontend architecture, and developer tools.',
+      type: 'profile',
+      image: `${origin}/og-image.png`,
+    },
+    {
+      route: '/work/starred-objects/',
+      title: 'Starred Objects | Seth Maxwell',
+      description: 'Building an in-product bookmark to solve a common customer pain point.',
+      type: 'article',
+      image: `${origin}/images/starred-objects.png`,
+    },
+    {
+      route: '/blog/mac-app-maintenance-on-tap/',
+      title: 'Mac App Maintenance, on Tap | Seth Maxwell',
+      description:
+        'How I use Homebrew, a Brewfile, and a small upgrade script to keep my Mac environment up to date and easily manageable.',
+      type: 'article',
+      image: `${origin}/og-image.png`,
+    },
+    {
+      route: '/contact/',
+      title: 'Contact | Seth Maxwell',
+      description: 'Contact Seth Maxwell.',
+      type: 'website',
+      image: `${origin}/og-image.png`,
+    },
+  ];
+
+  for (const page of pages) {
+    const html = await readFile(routeToHtmlPath(page.route), 'utf8');
+
+    assert.equal(extractTitle(html), page.title);
+    assert.equal(extractLinkHref(html, 'canonical'), `${origin}${page.route}`);
+    assert.equal(extractMetaContent(html, 'description'), page.description);
+    assert.equal(extractMetaContent(html, 'author'), 'Seth Maxwell');
+    assert.equal(extractMetaContent(html, 'og:site_name'), 'Seth Maxwell');
+    assert.equal(extractMetaContent(html, 'og:title'), page.title);
+    assert.equal(extractMetaContent(html, 'og:description'), page.description);
+    assert.equal(extractMetaContent(html, 'og:type'), page.type);
+    assert.equal(extractMetaContent(html, 'og:url'), `${origin}${page.route}`);
+    assert.equal(extractMetaContent(html, 'og:image'), page.image);
+    assert.equal(extractMetaContent(html, 'twitter:card'), 'summary_large_image');
+    assert.equal(extractMetaContent(html, 'twitter:title'), page.title);
+    assert.equal(extractMetaContent(html, 'twitter:description'), page.description);
+    assert.equal(extractMetaContent(html, 'twitter:image'), page.image);
+  }
+});
+
+test('dist includes JSON-LD for the homepage profile and blog posts', async () => {
+  const homeHtml = await readFile(routeToHtmlPath('/'), 'utf8');
+  const homeStructuredData = extractJsonLdObjects(homeHtml);
+  const profilePage = findStructuredData(homeStructuredData, 'ProfilePage');
+
+  assert.equal(profilePage.url, `${origin}/`);
+  assert.equal(profilePage.name, 'Seth Maxwell | Software Engineer');
+  assert.equal(profilePage.mainEntity?.['@type'], 'Person');
+  assert.equal(profilePage.mainEntity?.name, 'Seth Maxwell');
+  assert.equal(profilePage.mainEntity?.url, `${origin}/`);
+  assert.deepEqual(profilePage.mainEntity?.sameAs, [
+    'https://github.com/sethmaxwl',
+    'https://linkedin.com/in/sethmaxwl/',
+  ]);
+
+  const blogHtml = await readFile(routeToHtmlPath('/blog/mac-app-maintenance-on-tap/'), 'utf8');
+  const blogStructuredData = extractJsonLdObjects(blogHtml);
+  const blogPosting = findStructuredData(blogStructuredData, 'BlogPosting');
+
+  assert.equal(blogPosting.url, `${origin}/blog/mac-app-maintenance-on-tap/`);
+  assert.equal(blogPosting.headline, 'Mac App Maintenance, on Tap');
+  assert.equal(blogPosting.datePublished, '2026-05-22T00:00:00.000Z');
+  assert.equal(blogPosting.author?.['@type'], 'Person');
+  assert.equal(blogPosting.author?.name, 'Seth Maxwell');
+  assert.equal(blogPosting.author?.url, `${origin}/`);
+});
+
+test('dist serves fonts without third-party font hosts', async () => {
+  const files = await findFiles(distRoot);
+  const fontHostReferences: string[] = [];
+
+  for (const filePath of files) {
+    const contents = await readFile(filePath, 'utf8');
+    if (/fonts\.(?:googleapis|gstatic)\.com/.test(contents)) {
+      fontHostReferences.push(path.relative(distRoot, filePath));
+    }
+  }
+
+  assert.deepEqual(fontHostReferences, []);
+});
+
+test('Brewfile examples render with Shiki highlighting', async () => {
+  const html = await readFile(routeToHtmlPath('/blog/mac-app-maintenance-on-tap/'), 'utf8');
+
+  assert.match(
+    html,
+    /<pre class="astro-code everforest-light"[^>]+data-language="brewfile"><code><span class="line"><span style="color:#[A-Fa-f0-9]{6}">cask <\/span>/,
+  );
+});
+
 async function assertFileExists(filePath: string): Promise<void> {
   try {
     await access(filePath);
@@ -90,6 +223,10 @@ async function contentRoutes(contentDirectory: string, routePrefix: string): Pro
 }
 
 async function findHtmlFiles(directory: string): Promise<string[]> {
+  return (await findFiles(directory)).filter((file) => file.endsWith('.html'));
+}
+
+async function findFiles(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
   const files: string[] = [];
 
@@ -97,8 +234,8 @@ async function findHtmlFiles(directory: string): Promise<string[]> {
     const fullPath = path.join(directory, entry.name);
 
     if (entry.isDirectory()) {
-      files.push(...(await findHtmlFiles(fullPath)));
-    } else if (entry.isFile() && entry.name.endsWith('.html')) {
+      files.push(...(await findFiles(fullPath)));
+    } else if (entry.isFile()) {
       files.push(fullPath);
     }
   }
@@ -210,4 +347,77 @@ function hasFragmentTarget(html: string, hash: string): boolean {
   const id = decodeURIComponent(hash.slice(1));
   const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   return new RegExp(`\\s(?:id|name)=["']${escapedId}["']`).test(html);
+}
+
+function extractTitle(html: string): string {
+  const match = html.match(/<title>([^<]+)<\/title>/);
+  assert.ok(match, 'Missing <title>');
+  return decodeHtmlAttribute(match[1]);
+}
+
+function extractLinkHref(html: string, rel: string): string {
+  const tag = findTagWithAttribute(html, 'link', 'rel', rel);
+  assert.ok(tag, `Missing canonical link for ${rel}`);
+  const href = extractAttributeValue(tag, 'href');
+  assert.ok(href, `Missing href on ${tag}`);
+  return href;
+}
+
+function extractMetaContent(html: string, nameOrProperty: string): string {
+  const tag =
+    findTagWithAttribute(html, 'meta', 'name', nameOrProperty, false) ??
+    findTagWithAttribute(html, 'meta', 'property', nameOrProperty, false);
+  assert.ok(tag, `Missing meta tag for ${nameOrProperty}`);
+
+  const content = extractAttributeValue(tag, 'content');
+  assert.ok(content, `Missing content on ${tag}`);
+  return content;
+}
+
+function findTagWithAttribute(
+  html: string,
+  tagName: string,
+  attributeName: string,
+  attributeValue: string,
+  failOnMissing = true,
+): string | undefined {
+  const tagPattern = new RegExp(`<${tagName}\\b[^>]*>`, 'gi');
+
+  for (const match of html.matchAll(tagPattern)) {
+    const tag = match[0];
+    if (extractAttributeValue(tag, attributeName) === attributeValue) {
+      return tag;
+    }
+  }
+
+  if (failOnMissing) {
+    assert.fail(`Missing <${tagName}> with ${attributeName}="${attributeValue}"`);
+  }
+
+  return undefined;
+}
+
+function extractAttributeValue(tag: string, attributeName: string): string | undefined {
+  const escapedAttributeName = attributeName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = tag.match(new RegExp(`\\s${escapedAttributeName}=["']([^"']*)["']`, 'i'));
+  return match ? decodeHtmlAttribute(match[1]) : undefined;
+}
+
+function extractJsonLdObjects(html: string): Record<string, any>[] {
+  const scriptPattern =
+    /<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+  const objects: Record<string, any>[] = [];
+
+  for (const match of html.matchAll(scriptPattern)) {
+    const parsed = JSON.parse(match[1]);
+    objects.push(...(Array.isArray(parsed) ? parsed : [parsed]));
+  }
+
+  return objects;
+}
+
+function findStructuredData(objects: Record<string, any>[], type: string): Record<string, any> {
+  const object = objects.find((entry) => entry['@type'] === type);
+  assert.ok(object, `Missing ${type} JSON-LD object`);
+  return object;
 }
