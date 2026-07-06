@@ -2,9 +2,9 @@
   "name": "sethmaxwl-com",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "yarn@4.16.0",
+  "packageManager": "yarn@4.17.0",
   "engines": {
-    "node": "26.3.0"
+    "node": "26.4.0"
   },
   "type": "module",
   "scripts": {
@@ -23,13 +23,13 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^6.4.8"
+    "astro": "^7.0.6"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "@playwright/test": "^1.61.0",
-    "@types/node": "^26.0.0",
-    "prettier": "^3.8.4",
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.0",
+    "prettier": "^3.9.4",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^6.0.3"
   }
