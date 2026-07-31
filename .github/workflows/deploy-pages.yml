@@ -20,16 +20,16 @@ jobs:
     env:
       PUBLIC_GOOGLE_ANALYTICS_ID: G-K311DKX63B
     steps:
-      - uses: actions/checkout@v7.0.0
+      - uses: actions/checkout@v7.0.1
       - name: Set up Node.js
-        uses: actions/setup-node@v6.4.0
+        uses: actions/setup-node@v7.0.0
         with:
           node-version-file: .node-version
           package-manager-cache: false
       - name: Enable Corepack
         run: corepack enable
       - name: Restore Yarn cache
-        uses: actions/setup-node@v6.4.0
+        uses: actions/setup-node@v7.0.0
         with:
           node-version-file: .node-version
           cache: yarn
