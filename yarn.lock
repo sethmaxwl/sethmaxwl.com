@@ -155,8 +155,8 @@ __metadata:
   linkType: hard
 
 "@astrojs/language-server@npm:^2.16.7":
-  version: 2.16.13
-  resolution: "@astrojs/language-server@npm:2.16.13"
+  version: 2.16.14
+  resolution: "@astrojs/language-server@npm:2.16.14"
   dependencies:
     "@astrojs/compiler": "npm:^2.13.1"
     "@astrojs/yaml2ts": "npm:^0.2.4"
@@ -186,7 +186,7 @@ __metadata:
       optional: true
   bin:
     astro-ls: ./bin/nodeServer.js
-  checksum: 10c0/ea46894ba994d45deb8c86696587dbd2a99013c352eef066f505a1583cd24e050d3fb4af0db9828be89d597a42e895fcbbd0fd2cb33ea9127f9752405a093068
+  checksum: 10c0/3a04fa2036ae2efe756998fee026d845e710d2b86e4eb3b029eb70637a9cf51eedc72a8ba105f2cfaa9f311e79c4356569d8c1e316d6e705dc3a4c2a90fb2108
   languageName: node
   linkType: hard
 
@@ -1417,9 +1417,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "astro@npm:7.2.0"
+"astro@npm:^7.2.1":
+  version: 7.2.1
+  resolution: "astro@npm:7.2.1"
   dependencies:
     "@astrojs/compiler-rs": "npm:^0.3.2"
     "@astrojs/internal-helpers": "npm:0.10.2"
@@ -1484,7 +1484,7 @@ __metadata:
       optional: true
   bin:
     astro: ./bin/astro.mjs
-  checksum: 10c0/7e014706ea285fbc4de5365bab3f3e54e62c795896f5dd9af388065463729a491f960dd105e05a11c96c9c1f16b9607db2193b8884abedf74917dd66c7657ccb
+  checksum: 10c0/d92ca6e654e16ed9b6ed6dcb3a7c56a2390e3a702fb616aaf1d98d23a4961e34bd6b207d10542d2726ea25f67718377e60c7ede1dc1c8ba613b6f78affba5f69
   languageName: node
   linkType: hard
 
@@ -3028,7 +3028,7 @@ __metadata:
     "@astrojs/sitemap": "npm:^3.7.3"
     "@playwright/test": "npm:^1.62.1"
     "@types/node": "npm:^26.2.0"
-    astro: "npm:^7.2.0"
+    astro: "npm:^7.2.1"
     prettier: "npm:^3.9.6"
     prettier-plugin-astro: "npm:^0.14.1"
     typescript: "npm:^6.0.3"
@@ -3163,9 +3163,9 @@ __metadata:
   linkType: hard
 
 "smol-toml@npm:^1.6.0":
-  version: 1.7.1
-  resolution: "smol-toml@npm:1.7.1"
-  checksum: 10c0/c2494e19e748578cf9f81f918dd66a548dfe5a0e581ab9f980d5420f2319c882c661a62d01d216a43f2db490faaccd2185bcdb6f2ba0658eb303eda9db871d76
+  version: 1.8.0
+  resolution: "smol-toml@npm:1.8.0"
+  checksum: 10c0/4e01dbfb7c7af142176b037ebedaccccafb8229cc873feaa47c184ee31073d86e30b4b1b0fe9a5a6d083ed3ce21615eda9e81d1f5d779ad8b2e2e9459b900aea
   languageName: node
   linkType: hard
 
