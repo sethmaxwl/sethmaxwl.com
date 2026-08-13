@@ -2397,11 +2397,11 @@ __metadata:
   linkType: hard
 
 "magic-string@npm:^1.0.0":
-  version: 1.1.1
-  resolution: "magic-string@npm:1.1.1"
+  version: 1.2.0
+  resolution: "magic-string@npm:1.2.0"
   dependencies:
     "@jridgewell/sourcemap-codec": "npm:^1.5.5"
-  checksum: 10c0/b284757f95455945bf17fca33a9ea7b15fa85e028c2fc41f23963b2854eaa0bc9ae339d1642548ae9309f6f0b7ed697514dc357619fcd1a7c1e3accecd7b5991
+  checksum: 10c0/a86d8a299ee67818a262403937b084fd03e67ce6e407a65bbed477fc74b0dea9ead912c75e822b5a3a034e05ea8531d73075836ba68b2fda29c0a676976546fe
   languageName: node
   linkType: hard
 
