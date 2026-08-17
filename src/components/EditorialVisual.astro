@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 
 type Thumbnail = CollectionEntry<'work'>['data']['thumbnail'];
 
@@ -8,17 +9,20 @@ interface Props {
 }
 
 const { thumbnail } = Astro.props;
+const widths = [
+  ...new Set([360, 640, thumbnail.src.width].filter((width) => width <= thumbnail.src.width)),
+];
 ---
 
 <figure class="editorial-visual">
-  <img
+  <Image
     class="editorial-thumbnail"
     src={thumbnail.src}
     alt={thumbnail.alt}
-    width={thumbnail.width}
-    height={thumbnail.height}
-    loading="lazy"
-    decoding="async"
+    widths={widths}
+    sizes="(max-width: 840px) calc(100vw - 40px), 820px"
+    format="webp"
+    quality="high"
   />
 </figure>
 

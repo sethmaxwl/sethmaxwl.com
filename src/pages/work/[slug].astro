@@ -17,9 +17,9 @@ const { Content } = await render(project);
 ---
 
 <BaseLayout
-  title={`${project.data.title} | Seth Maxwell`}
+  title={project.data.title}
   description={project.data.description}
-  image={project.data.thumbnail.src}
+  image={project.data.coverImage}
   type="article"
 >
   <article class="case-study">

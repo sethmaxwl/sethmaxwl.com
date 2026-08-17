@@ -3,8 +3,12 @@ export interface ContentEntry {
   data: {
     title?: string;
     date?: Date;
+    sortOrder?: number;
+    featuredRank?: number;
   };
 }
+
+type RankField = 'sortOrder' | 'featuredRank';
 
 function compareById<Entry extends ContentEntry>(a: Entry, b: Entry): number {
   return a.id.localeCompare(b.id);
@@ -24,43 +28,66 @@ export function compareByNewestDate<Entry extends ContentEntry>(a: Entry, b: Ent
   return dateB - dateA || compareByTitle(a, b);
 }
 
-export function orderEntriesById<Entry extends ContentEntry>(
+export function assertUniqueRanks<Entry extends ContentEntry>(
   entries: readonly Entry[],
-  orderedIds: readonly string[],
-  fallbackSort: (a: Entry, b: Entry) => number = compareById,
-): Entry[] {
-  const orderById = new Map(orderedIds.map((id, index) => [id, index]));
-  const orderedEntries: Entry[] = [];
-  const unorderedEntries: Entry[] = [];
+  field: RankField,
+): void {
+  const entryByRank = new Map<number, string>();
 
   for (const entry of entries) {
-    if (orderById.has(entry.id)) {
-      orderedEntries.push(entry);
-    } else {
-      unorderedEntries.push(entry);
-    }
-  }
+    const rank = entry.data[field];
 
-  return [
-    ...orderedEntries.sort((a, b) => orderById.get(a.id)! - orderById.get(b.id)!),
-    ...unorderedEntries.sort(fallbackSort),
-  ];
+    if (rank === undefined) {
+      continue;
+    }
+
+    const existingEntryId = entryByRank.get(rank);
+
+    if (existingEntryId) {
+      throw new Error(
+        `Duplicate ${field} value ${rank} for content entries "${existingEntryId}" and "${entry.id}".`,
+      );
+    }
+
+    entryByRank.set(rank, entry.id);
+  }
 }
 
-export function selectEntriesById<Entry extends ContentEntry>(
+export function orderEntriesByRank<Entry extends ContentEntry>(
   entries: readonly Entry[],
-  selectedIds: readonly string[],
+  field: RankField,
+  fallbackSort: (a: Entry, b: Entry) => number = compareById,
 ): Entry[] {
-  const entriesById = new Map(entries.map((entry) => [entry.id, entry]));
-  const selectedEntries: Entry[] = [];
+  assertUniqueRanks(entries, field);
 
-  for (const id of selectedIds) {
-    const entry = entriesById.get(id);
+  return entries.toSorted((a, b) => {
+    const rankA = a.data[field];
+    const rankB = b.data[field];
 
-    if (entry) {
-      selectedEntries.push(entry);
+    if (rankA !== undefined && rankB !== undefined) {
+      return rankA - rankB || fallbackSort(a, b);
     }
-  }
 
-  return selectedEntries;
+    if (rankA !== undefined) {
+      return -1;
+    }
+
+    if (rankB !== undefined) {
+      return 1;
+    }
+
+    return fallbackSort(a, b);
+  });
+}
+
+export function selectEntriesByRank<Entry extends ContentEntry>(
+  entries: readonly Entry[],
+  field: RankField,
+  fallbackSort: (a: Entry, b: Entry) => number = compareById,
+): Entry[] {
+  return orderEntriesByRank(
+    entries.filter((entry) => entry.data[field] !== undefined),
+    field,
+    fallbackSort,
+  );
 }

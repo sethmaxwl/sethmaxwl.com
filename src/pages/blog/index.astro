@@ -1,19 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageIntro from '@components/PageIntro.astro';
 import BlogList from '@components/BlogList.astro';
-import { site } from '@data/site';
-import { compareByNewestDate, orderEntriesById } from '../../utils/contentOrder';
+import { getBlogPosts } from '@data/content';
 
-const posts = orderEntriesById(
-  await getCollection('blog'),
-  site.content.blogOrder,
-  compareByNewestDate,
-);
+const posts = await getBlogPosts();
 ---
 
-<BaseLayout title="Blog | Seth Maxwell" description="Blog posts by Seth Maxwell.">
+<BaseLayout title="Blog" description="Blog posts by Seth Maxwell.">
   <PageIntro
     title="Drafts That Escaped"
     description="Short posts about software, projects, and things I'm learning."

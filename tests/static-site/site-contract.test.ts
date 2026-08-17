@@ -176,9 +176,18 @@ test('dist includes JSON-LD for the homepage profile and blog posts', async () =
   assert.equal(blogPosting.url, `${origin}/blog/mac-app-maintenance-on-tap/`);
   assert.equal(blogPosting.headline, 'Mac App Maintenance, on Tap');
   assert.equal(blogPosting.datePublished, '2026-05-22T00:00:00.000Z');
+  assert.equal('dateModified' in blogPosting, false);
+  assert.equal(blogPosting.image, 'https://sethmaxwl.com/og-image.png');
   assert.equal(blogPosting.author?.['@type'], 'Person');
   assert.equal(blogPosting.author?.name, 'Seth Maxwell');
   assert.equal(blogPosting.author?.url, `${origin}/`);
+});
+
+test('work imagery is emitted as responsive, optimized assets', async () => {
+  const html = await readFile(routeToHtmlPath('/work/starred-objects/'), 'utf8');
+
+  assert.match(html, /<img[^>]+src="\/_astro\/starred-objects\.[^"]+\.webp"/);
+  assert.match(html, /srcset="[^"]+360w, [^"]+640w, [^"]+996w"/);
 });
 
 test('dist serves fonts without third-party font hosts', async () => {

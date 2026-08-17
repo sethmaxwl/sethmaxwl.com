@@ -2,10 +2,11 @@
 title: 'Draft Pull Requests'
 description: 'How I helped developers share work early and signal intent clearly.'
 thumbnail:
-  src: '/images/draft-pull-requests.png'
+  src: './assets/draft-pull-requests.png'
   alt: 'A draft pull request button next to the create pull request button.'
-  width: 695
-  height: 188
+coverImage: '/images/draft-pull-requests.png'
+sortOrder: 2
+featuredRank: 2
 externalLink:
   href: 'https://www.atlassian.com/blog/bitbucket/draft-pull-requests'
   label: 'Say hello to draft pull requests! And one more thing we think you’ll love.'

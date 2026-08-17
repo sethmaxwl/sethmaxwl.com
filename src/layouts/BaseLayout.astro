@@ -2,7 +2,9 @@
 import SiteHeader from '@components/SiteHeader.astro';
 import SiteFooter from '@components/SiteFooter.astro';
 import { Font } from 'astro:assets';
+import { site } from '@data/site';
 import '@styles/global.css';
+import { createPageMetadata } from '@utils/metadata';
 
 interface Props {
   title?: string;
@@ -12,17 +14,16 @@ interface Props {
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const {
-  title = 'Seth Maxwell',
-  description = 'Software engineer at Atlassian working on Bitbucket Cloud, frontend architecture, and developer tools.',
-  image = '/og-image.png',
-  type = 'website',
-  structuredData,
-} = Astro.props;
+const { title, description, image, type, structuredData } = Astro.props;
 
-const siteUrl = Astro.site ?? new URL('https://sethmaxwl.com');
-const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
-const socialImageUrl = new URL(image, siteUrl).href;
+const metadata = createPageMetadata({
+  title,
+  description,
+  image,
+  type,
+  pathname: Astro.url.pathname,
+  siteUrl: Astro.site,
+});
 const googleAnalyticsId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID?.trim();
 const enableGoogleAnalytics = /^G-[A-Z0-9]+$/.test(googleAnalyticsId ?? '');
 const googleAnalyticsScript = enableGoogleAnalytics
@@ -44,10 +45,10 @@ const structuredDataJson = structuredData
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
-    <meta name="author" content="Seth Maxwell" />
+    <meta name="description" content={metadata.description} />
+    <meta name="author" content={site.name} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="canonical" href={canonicalUrl} />
+    <link rel="canonical" href={metadata.canonicalUrl} />
     <Font cssVariable="--font-display" />
     <Font cssVariable="--font-body" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -57,17 +58,17 @@ const structuredDataJson = structuredData
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#fdf8f7" />
-    <meta property="og:site_name" content="Seth Maxwell" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content={type} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={metadata.title} />
+    <meta property="og:description" content={metadata.description} />
+    <meta property="og:type" content={metadata.type} />
+    <meta property="og:url" content={metadata.canonicalUrl} />
+    <meta property="og:image" content={metadata.socialImageUrl} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={socialImageUrl} />
-    <title>{title}</title>
+    <meta name="twitter:title" content={metadata.title} />
+    <meta name="twitter:description" content={metadata.description} />
+    <meta name="twitter:image" content={metadata.socialImageUrl} />
+    <title>{metadata.title}</title>
     {
       structuredDataJson && (
         <script is:inline type="application/ld+json" set:html={structuredDataJson} />

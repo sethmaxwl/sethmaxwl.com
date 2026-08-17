@@ -2,6 +2,7 @@
 title: 'Mac App Maintenance, on Tap'
 description: 'How I use Homebrew, a Brewfile, and a small upgrade script to keep my Mac environment up to date and easily manageable.'
 date: 2026-05-22
+coverImage: '/og-image.png'
 ---
 
 ## One File to Brew Them All

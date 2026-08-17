@@ -1,22 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageIntro from '@components/PageIntro.astro';
 import ProjectFeature from '@components/ProjectFeature.astro';
-import { site } from '@data/site';
-import { compareByTitle, orderEntriesById } from '../../utils/contentOrder';
+import { getWorkProjects } from '@data/content';
 
-const projects = orderEntriesById(
-  await getCollection('work'),
-  site.content.workOrder,
-  compareByTitle,
-);
+const projects = await getWorkProjects();
 ---
 
-<BaseLayout
-  title="Work | Seth Maxwell"
-  description="Selected software engineering projects by Seth Maxwell."
->
+<BaseLayout title="Work" description="Selected software engineering projects by Seth Maxwell.">
   <PageIntro
     title="Shipping Department"
     description="A collection of projects I've led or contributed to."

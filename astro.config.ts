@@ -1,8 +1,9 @@
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, envField, fontProviders } from 'astro/config';
+import { site } from './src/data/site';
 
 export default defineConfig({
-  site: 'https://sethmaxwl.com',
+  site: site.url,
   output: 'static',
   trailingSlash: 'always',
   prerenderConflictBehavior: 'error',

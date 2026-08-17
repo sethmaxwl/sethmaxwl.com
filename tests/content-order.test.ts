@@ -1,10 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  assertUniqueRanks,
   compareByNewestDate,
   compareByTitle,
-  orderEntriesById,
-  selectEntriesById,
+  orderEntriesByRank,
+  selectEntriesByRank,
 } from '../src/utils/contentOrder.ts';
 
 const entries = [
@@ -20,6 +21,8 @@ const entries = [
     data: {
       title: 'Alpha',
       date: new Date('2026-05-22T00:00:00.000Z'),
+      sortOrder: 2,
+      featuredRank: 2,
     },
   },
   {
@@ -27,6 +30,8 @@ const entries = [
     data: {
       title: 'Gamma',
       date: new Date('2026-05-21T00:00:00.000Z'),
+      sortOrder: 1,
+      featuredRank: 1,
     },
   },
 ];
@@ -43,8 +48,8 @@ test('compareByTitle falls back to id when titles match', () => {
   );
 });
 
-test('orderEntriesById puts configured entries first and sorts remaining entries by fallback', () => {
-  const ordered = orderEntriesById(entries, ['gamma'], compareByTitle);
+test('orderEntriesByRank puts ranked entries first and sorts remaining entries by fallback', () => {
+  const ordered = orderEntriesByRank(entries, 'sortOrder', compareByTitle);
 
   assert.deepEqual(
     ordered.map((entry) => entry.id),
@@ -64,11 +69,25 @@ test('compareByNewestDate sorts newest entries first and falls back to title ord
   );
 });
 
-test('selectEntriesById returns configured entries in order and ignores missing ids', () => {
-  const selected = selectEntriesById(entries, ['gamma', 'missing', 'alpha']);
+test('selectEntriesByRank returns featured entries in rank order', () => {
+  const selected = selectEntriesByRank(entries, 'featuredRank');
 
   assert.deepEqual(
     selected.map((entry) => entry.id),
     ['gamma', 'alpha'],
+  );
+});
+
+test('assertUniqueRanks rejects duplicate ranks that would make curation ambiguous', () => {
+  assert.throws(
+    () =>
+      assertUniqueRanks(
+        [
+          { id: 'first', data: { sortOrder: 1 } },
+          { id: 'second', data: { sortOrder: 1 } },
+        ],
+        'sortOrder',
+      ),
+    /Duplicate sortOrder value 1/,
   );
 });
