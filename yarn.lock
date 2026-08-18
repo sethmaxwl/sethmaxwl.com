@@ -138,9 +138,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/internal-helpers@npm:0.10.2":
-  version: 0.10.2
-  resolution: "@astrojs/internal-helpers@npm:0.10.2"
+"@astrojs/internal-helpers@npm:0.10.3":
+  version: 0.10.3
+  resolution: "@astrojs/internal-helpers@npm:0.10.3"
   dependencies:
     "@types/hast": "npm:^3.0.4"
     "@types/mdast": "npm:^4.0.4"
@@ -150,7 +150,7 @@ __metadata:
     shiki: "npm:^4.0.2"
     smol-toml: "npm:^1.6.0"
     unified: "npm:^11.0.5"
-  checksum: 10c0/003fd40fc588b70ee50daf49d1d76ff9acf3f946d7d79fcb06c89187d078c5b4044f7a24c6c3b614363dd9bfd7be6cdced98d1422bbbc090f902ea7b3b27d0bb
+  checksum: 10c0/2b105f6afbee173233a3fe2a5b7f1c4a075a7a00b45f8e1e4e343986c900e37538b9886b392354be40ed3436946de701842d3e1ed69493aa80b16280c02e9fde
   languageName: node
   linkType: hard
 
@@ -190,16 +190,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@astrojs/markdown-satteri@npm:0.3.5":
-  version: 0.3.5
-  resolution: "@astrojs/markdown-satteri@npm:0.3.5"
+"@astrojs/markdown-satteri@npm:0.3.6":
+  version: 0.3.6
+  resolution: "@astrojs/markdown-satteri@npm:0.3.6"
   dependencies:
-    "@astrojs/internal-helpers": "npm:0.10.2"
+    "@astrojs/internal-helpers": "npm:0.10.3"
     "@astrojs/prism": "npm:4.0.2"
     github-slugger: "npm:^2.0.0"
     hast-util-from-html: "npm:^2.0.3"
     satteri: "npm:^0.9.1"
-  checksum: 10c0/4d88de2c7b058c8ab0a1343e35cfec14f50f36c2c7a7f8024f679ef4edb5e42c8ca8c8828446aa9124aa1c2f5fb1e0ec837e7bf789cd775e7e61a2405a09bc24
+  checksum: 10c0/812d101524b824999b8ca9be392fee1336eb934cd81cfa4f0ca0880c059fe3539d373cc7b1230ec8f5c6b78ae9d90c828b6e62a2cf1550af6d370db43fc1778a
   languageName: node
   linkType: hard
 
@@ -1426,13 +1426,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@npm:^7.2.2":
-  version: 7.2.2
-  resolution: "astro@npm:7.2.2"
+"astro@npm:^7.2.3":
+  version: 7.2.3
+  resolution: "astro@npm:7.2.3"
   dependencies:
     "@astrojs/compiler-rs": "npm:^0.3.2"
-    "@astrojs/internal-helpers": "npm:0.10.2"
-    "@astrojs/markdown-satteri": "npm:0.3.5"
+    "@astrojs/internal-helpers": "npm:0.10.3"
+    "@astrojs/markdown-satteri": "npm:0.3.6"
     "@astrojs/telemetry": "npm:3.3.3"
     "@capsizecss/unpack": "npm:^4.0.0"
     "@clack/prompts": "npm:^1.1.0"
@@ -1477,7 +1477,7 @@ __metadata:
     tinyexec: "npm:^1.0.4"
     tinyglobby: "npm:^0.2.15"
     ultrahtml: "npm:^1.6.0"
-    unifont: "npm:~0.7.4"
+    unifont: "npm:~0.7.5"
     unstorage: "npm:^1.17.5"
     vite: "npm:^8.0.13"
     vitefu: "npm:^1.1.2"
@@ -1485,7 +1485,7 @@ __metadata:
     yargs-parser: "npm:^22.0.0"
     zod: "npm:^4.3.6"
   peerDependencies:
-    "@astrojs/markdown-remark": 7.2.2
+    "@astrojs/markdown-remark": 7.2.3
   dependenciesMeta:
     sharp:
       optional: true
@@ -1494,7 +1494,7 @@ __metadata:
       optional: true
   bin:
     astro: ./bin/astro.mjs
-  checksum: 10c0/f925b6d5253b43fef453082f3a6effc8f309cf3d6f5662a670caecc2bd9b6b72cc441ac2dc120ff3bd0083d1ed0e7e15a0e22b4b23be72b4bd39b7b1b78a6574
+  checksum: 10c0/560d30f469f0ef141713f10d76608b0410d146812e1b8888df018439a9b08b3dc4f3744c74ab59aabac99394823fb8d2241794a3da5aca29783bac5b72855242
   languageName: node
   linkType: hard
 
@@ -3098,7 +3098,7 @@ __metadata:
     "@astrojs/sitemap": "npm:^3.7.3"
     "@playwright/test": "npm:^1.62.1"
     "@types/node": "npm:^26.2.0"
-    astro: "npm:^7.2.2"
+    astro: "npm:^7.2.3"
     prettier: "npm:^3.9.6"
     prettier-plugin-astro: "npm:^0.14.1"
     typescript: "npm:^6.0.3"
@@ -3493,7 +3493,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unifont@npm:~0.7.4":
+"unifont@npm:~0.7.5":
   version: 0.7.5
   resolution: "unifont@npm:0.7.5"
   dependencies:
