@@ -908,9 +908,9 @@ __metadata:
   linkType: hard
 
 "@jridgewell/sourcemap-codec@npm:^1.5.5":
-  version: 1.5.5
-  resolution: "@jridgewell/sourcemap-codec@npm:1.5.5"
-  checksum: 10c0/f9e538f302b63c0ebc06eecb1dd9918dd4289ed36147a0ddce35d6ea4d7ebbda243cda7b2213b6a5e1d8087a298d5cf630fb2bd39329cdecb82017023f6081a0
+  version: 1.6.0
+  resolution: "@jridgewell/sourcemap-codec@npm:1.6.0"
+  checksum: 10c0/b5be700e45a775f218589c3466c4ffea630582b4988657652da464e5ab8a7d18bf928ee4fd2363fb346ede4bea9c6ff0bae05a538358c4565ece6199531b5f72
   languageName: node
   linkType: hard
 
@@ -1230,9 +1230,9 @@ __metadata:
   linkType: hard
 
 "@ungap/structured-clone@npm:^1.0.0":
-  version: 1.3.4
-  resolution: "@ungap/structured-clone@npm:1.3.4"
-  checksum: 10c0/399bec22309955171ce6885d3e1b8e2de85a20d399b30c89d034dc12ea3784a2fe88f169b33e91f439de02202fb398a48ac071aeb78d2815ff964d0ce9cf6b68
+  version: 1.4.0
+  resolution: "@ungap/structured-clone@npm:1.4.0"
+  checksum: 10c0/be74a389850d02901c836c07f10c1070d7604dab4070ba3c4b77c91665b90b4175d9f186189a02a399cf054fc051d3251418238564a4491d0164969e05c802a2
   languageName: node
   linkType: hard
 
@@ -1423,9 +1423,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@npm:^7.2.8":
-  version: 7.2.8
-  resolution: "astro@npm:7.2.8"
+"astro@npm:^7.2.9":
+  version: 7.2.9
+  resolution: "astro@npm:7.2.9"
   dependencies:
     "@astrojs/compiler-rs": "npm:^0.4.0"
     "@astrojs/internal-helpers": "npm:0.10.4"
@@ -1491,7 +1491,7 @@ __metadata:
       optional: true
   bin:
     astro: ./bin/astro.mjs
-  checksum: 10c0/72e44f7931b438c59b48f5c2bd73efe0d0d16f5944576f1f5b6c8b5f198f1c35260300392e0ad11c1ea45c954dddf196b2d995c5065a1eeef48e47bf1387d66d
+  checksum: 10c0/962e229c8d364152b6354bb803307aa0f755bb9ad3c84fc5efe42901afd013f172a8d3a4abfbb05cb6bde4fddef2456a1d9217c374bd4e4a49b6d784beb8c671
   languageName: node
   linkType: hard
 
@@ -1709,9 +1709,9 @@ __metadata:
   linkType: hard
 
 "devalue@npm:^5.8.1":
-  version: 5.9.1
-  resolution: "devalue@npm:5.9.1"
-  checksum: 10c0/051254fbd21cd3ee90de325e038a76ea84d2102d27344043a0f861c7d5c8212dbda63979f053ac2d627d83cf33c42b62d301b0b82b4e6a4c6ea539d8feba87e7
+  version: 5.9.2
+  resolution: "devalue@npm:5.9.2"
+  checksum: 10c0/06ee48d3a69a2f77dee7867be4885b965d10592cd7082a19e885a81bc552548780564ea244ecc77e70a91c41bea7086a473b85120d73bfa1737c801a3797e6b5
   languageName: node
   linkType: hard
 
@@ -2977,7 +2977,7 @@ __metadata:
     "@astrojs/sitemap": "npm:^3.7.3"
     "@playwright/test": "npm:^1.62.1"
     "@types/node": "npm:^26.4.0"
-    astro: "npm:^7.2.8"
+    astro: "npm:^7.2.9"
     prettier: "npm:^3.9.6"
     prettier-plugin-astro: "npm:^0.14.1"
     typescript: "npm:^6.0.3"
@@ -3744,10 +3744,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vscode-jsonrpc@npm:9.0.1":
-  version: 9.0.1
-  resolution: "vscode-jsonrpc@npm:9.0.1"
-  checksum: 10c0/6ca63393dd78675ed33b5537c147e673865557ff93915cd5189ceae039ca7fe01808ffd9a14016732d4789f2102a037d68d4216f557c3380d1c7f3ea50fd85b4
+"vscode-jsonrpc@npm:9.0.2":
+  version: 9.0.2
+  resolution: "vscode-jsonrpc@npm:9.0.2"
+  checksum: 10c0/5eb4a902a4aa5b13655ea997dfdad6d5760df6acfd0388d7fccb641dff719af3ee1b9d99dc7548e21fe62e356f6b196c0bd37590f813137c7d9b6670fa22b237
   languageName: node
   linkType: hard
 
@@ -3762,12 +3762,12 @@ __metadata:
   linkType: hard
 
 "vscode-languageserver-protocol@npm:^3.17.5":
-  version: 3.18.2
-  resolution: "vscode-languageserver-protocol@npm:3.18.2"
+  version: 3.18.3
+  resolution: "vscode-languageserver-protocol@npm:3.18.3"
   dependencies:
-    vscode-jsonrpc: "npm:9.0.1"
-    vscode-languageserver-types: "npm:3.18.0"
-  checksum: 10c0/c77862958063b2d6edcdbab7da1abece58b251051338083296c468d5caafc2c249aba63f1a15011d8b8354e145937252520fe6a9632c146606a833bdeae9784c
+    vscode-jsonrpc: "npm:9.0.2"
+    vscode-languageserver-types: "npm:3.18.3"
+  checksum: 10c0/4bff493ec34caf16eebdbfbc2baa4f35e909340344ff22d5165277b4d2a2221d821eec3bd1edb12403cdbb6f8c5af7eae0fbc9865f21ff93445f54a90e558306
   languageName: node
   linkType: hard
 
@@ -3785,10 +3785,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vscode-languageserver-types@npm:3.18.0, vscode-languageserver-types@npm:^3.15.1, vscode-languageserver-types@npm:^3.16.0, vscode-languageserver-types@npm:^3.17.5":
-  version: 3.18.0
-  resolution: "vscode-languageserver-types@npm:3.18.0"
-  checksum: 10c0/d8c51cd286cc55b4c1f333e87fa3cefc66d2aae8c65f6209e7ecf88032d3326308b333d62b05243c194be8a3304760445b87630b298116c6c612607f011b4de0
+"vscode-languageserver-types@npm:3.18.3, vscode-languageserver-types@npm:^3.15.1, vscode-languageserver-types@npm:^3.16.0, vscode-languageserver-types@npm:^3.17.5":
+  version: 3.18.3
+  resolution: "vscode-languageserver-types@npm:3.18.3"
+  checksum: 10c0/a750da5edbfb08a009b9fcfd780accff17c6312658eab7fcd29baf1bf8318578fdcd4de87a1e25754af7aec72aa5ee9218712614763f27e93313c85768ea17bf
   languageName: node
   linkType: hard
 
