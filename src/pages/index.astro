@@ -17,15 +17,9 @@ const profileStructuredData = createProfilePageStructuredData(Astro.site);
   <section class="featured-work container">
     <h3 class="headline">What I've been up to lately:</h3>
     <div class="project-stack">
-      {
-        featuredProjects.map((project, index) => (
-          <ProjectFeature
-            project={project}
-            href={`/work/${project.id}/`}
-            reverse={index % 2 === 1}
-          />
-        ))
-      }
+      {featuredProjects.map((project, index) => (
+        <ProjectFeature project={project} href={`/work/${project.id}/`} reverse={index % 2 === 1} />
+      ))}
     </div>
   </section>
 </BaseLayout>

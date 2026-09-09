@@ -72,26 +72,24 @@ const structuredDataJson = structuredData
     <meta name="twitter:description" content={metadata.description} />
     <meta name="twitter:image" content={metadata.socialImageUrl} />
     <title>{metadata.title}</title>
-    {
-      structuredDataJson && (
-        <script is:inline type="application/ld+json" set:html={structuredDataJson} />
-      )
-    }
-    {
-      enableGoogleAnalytics && (
-        <>
-          <script
-            async
-            is:inline
-            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
-          />
-          <script is:inline set:html={googleAnalyticsScript} />
-        </>
-      )
-    }
+    {structuredDataJson && (
+      <script is:inline type="application/ld+json" set:html={structuredDataJson}></script>
+    )}
+    {enableGoogleAnalytics && (
+      <>
+        <script
+          async
+          is:inline
+          src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+        ></script>
+        <script is:inline set:html={googleAnalyticsScript}></script>
+      </>
+    )}
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
     <div class="site-shell">
       <SiteHeader />
       <main id="main">

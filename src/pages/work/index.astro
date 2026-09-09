@@ -13,11 +13,9 @@ const projects = await getWorkProjects();
     description="A collection of projects I've led or contributed to."
   />
   <section class="container work-list">
-    {
-      projects.map((project, index) => (
-        <ProjectFeature project={project} href={`/work/${project.id}/`} reverse={index % 2 === 1} />
-      ))
-    }
+    {projects.map((project, index) => (
+      <ProjectFeature project={project} href={`/work/${project.id}/`} reverse={index % 2 === 1} />
+    ))}
   </section>
 </BaseLayout>
 

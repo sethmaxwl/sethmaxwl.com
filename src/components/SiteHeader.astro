@@ -10,7 +10,9 @@ const primaryNav = site.nav.map((item) => ({
 
 <header class="site-header" data-menu-open="false">
   <div class="container header-inner">
-    <a class="brand" href="/" aria-label="Seth Maxwell home">{site.name}</a>
+    <a class="brand" href="/" aria-label="Seth Maxwell home">
+      {site.name}
+    </a>
     <button
       class="nav-toggle"
       type="button"
@@ -21,13 +23,11 @@ const primaryNav = site.nav.map((item) => ({
       <span class="nav-toggle-icon" aria-hidden="true"></span>
     </button>
     <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
-      {
-        primaryNav.map((item) => (
-          <a href={item.href} target={item.target} rel={item.rel}>
-            {item.label}
-          </a>
-        ))
-      }
+      {primaryNav.map((item) => (
+        <a href={item.href} target={item.target} rel={item.rel}>
+          {item.label}
+        </a>
+      ))}
     </nav>
   </div>
 </header>
