@@ -29,8 +29,8 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    date: z.date(),
-    updatedAt: z.date().optional(),
+    date: z.coerce.date(),
+    updatedAt: z.coerce.date().optional(),
     coverImage: z.string().regex(/^\/\S+$/, 'Expected a root-relative public asset path.'),
   }),
 });
