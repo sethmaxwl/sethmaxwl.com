@@ -8,6 +8,8 @@ updates:
       npm:
         patterns:
           - '*'
+    ignore:
+      - dependency-name: typescript
     open-pull-requests-limit: 5
 
   - package-ecosystem: github-actions
