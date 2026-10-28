@@ -1,0 +1,5 @@
+#!/bin/sh
+# Runs the same verification as CI. Skip with `git commit --no-verify`.
+set -e
+
+yarn ci:verify

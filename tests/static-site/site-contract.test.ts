@@ -216,18 +216,15 @@ test('dist includes a 1200x630 social image for every blog post', async () => {
 test('homepage lists recent projects and posts newest first', async () => {
   const html = await readFile(routeToHtmlPath('/'), 'utf8');
   const entries = [
-    ...html.matchAll(
-      /<time datetime="([^"]+)"[^>]*>[^<]*<\/time>(?:<span[^>]*>(Project|Post)<\/span>)?/g,
-    ),
+    ...html.matchAll(/<time datetime="([^"]+)"[^>]*>[^<]*<\/time>(?:<span[^>]*>([^<]+)<\/span>)?/g),
   ].map(([, datetime, kind]) => ({ datetime, kind }));
 
   assert.ok(entries.length > 0, 'Homepage has no recent activity entries');
+  assert.ok(entries.length <= 3, `Homepage shows ${entries.length} entries, expected at most 3`);
   assert.ok(
-    entries.every((entry) => entry.kind),
-    'Every homepage entry is tagged',
+    entries.every((entry) => entry.kind === 'Work Project' || entry.kind === 'Blog Post'),
+    `Every homepage entry is tagged: ${entries.map((entry) => entry.kind).join(', ')}`,
   );
-  assert.ok(entries.some((entry) => entry.kind === 'Project'));
-  assert.ok(entries.some((entry) => entry.kind === 'Post'));
   assert.deepEqual(
     entries.map((entry) => entry.datetime),
     entries
