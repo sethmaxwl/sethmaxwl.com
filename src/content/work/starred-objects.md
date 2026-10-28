@@ -1,10 +1,10 @@
 ---
 title: 'Starred Objects'
 description: 'Building an in-product bookmark to solve a common customer pain point.'
+date: 2026-05-21
 thumbnail:
   src: './assets/starred-objects.png'
   alt: 'A new section in the Bitbucket navigation showing starred repositories.'
-coverImage: '/images/starred-objects.png'
 sortOrder: 1
 featuredRank: 1
 externalLink:

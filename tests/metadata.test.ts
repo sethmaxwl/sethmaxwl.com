@@ -28,7 +28,6 @@ test('blog structured data only includes dateModified when an update exists', ()
       title: 'Test post',
       description: 'A test post.',
       date: new Date('2026-05-22T00:00:00.000Z'),
-      coverImage: '/og-image.png',
     },
   } as CollectionEntry<'blog'>;
 
@@ -43,4 +42,25 @@ test('blog structured data only includes dateModified when an update exists', ()
     },
   });
   assert.equal(updatedSchema.dateModified, '2026-06-01T00:00:00.000Z');
+});
+
+test('blog structured data uses the generated social image unless a cover image is set', () => {
+  const post = {
+    id: 'test-post',
+    data: {
+      title: 'Test post',
+      description: 'A test post.',
+      date: new Date('2026-05-22T00:00:00.000Z'),
+    },
+  } as CollectionEntry<'blog'>;
+
+  assert.equal(
+    createBlogPostStructuredData(post).image,
+    'https://sethmaxwl.com/og/blog/test-post.png',
+  );
+  assert.equal(
+    createBlogPostStructuredData({ ...post, data: { ...post.data, coverImage: '/custom.png' } })
+      .image,
+    'https://sethmaxwl.com/custom.png',
+  );
 });

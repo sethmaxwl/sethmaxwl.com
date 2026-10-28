@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageIntro from '@components/PageIntro.astro';
-import BlogList from '@components/BlogList.astro';
-import { getBlogPosts } from '@data/content';
+import ContentList from '@components/ContentList.astro';
+import { blogPostListItem, getBlogPosts } from '@data/content';
 
 const posts = await getBlogPosts();
 ---
@@ -13,7 +13,7 @@ const posts = await getBlogPosts();
     description="Short posts about software, projects, and things I'm learning."
   />
   <section class="container blog-section">
-    <BlogList posts={posts} />
+    <ContentList items={posts.map(blogPostListItem)} />
   </section>
 </BaseLayout>
 

@@ -2,7 +2,6 @@
 title: 'Understanding used to be free'
 description: 'Why AI development needs deliberate mental friction to stay on track.'
 date: 2026-09-22
-coverImage: '/og-image.png'
 ---
 
 When I wrote a function by hand, I ended up understanding it, not because I set out to but because there was no way to produce it without resolving every decision

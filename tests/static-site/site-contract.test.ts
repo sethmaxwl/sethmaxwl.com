@@ -30,7 +30,8 @@ test('dist contains expected routes and required static files', async () => {
     'favicon-16x16.png',
     'favicon-32x32.png',
     'apple-touch-icon.png',
-    'og-image.png',
+    'og-image.jpg',
+    'rss.xml',
     'robots.txt',
   ]) {
     await assertFileExists(path.join(distRoot, filePath));
@@ -108,14 +109,14 @@ test('dist pages include canonical URLs and social preview metadata', async () =
       description:
         'Software engineer at Atlassian working on Bitbucket Cloud, frontend architecture, and developer tools.',
       type: 'profile',
-      image: `${origin}/og-image.png`,
+      image: `${origin}/og-image.jpg`,
     },
     {
       route: '/work/starred-objects/',
       title: 'Starred Objects | Seth Maxwell',
       description: 'Building an in-product bookmark to solve a common customer pain point.',
       type: 'article',
-      image: `${origin}/images/starred-objects.png`,
+      image: new RegExp(`^${origin}/_astro/starred-objects\\.[^/]+\\.png$`),
     },
     {
       route: '/blog/mac-app-maintenance-on-tap/',
@@ -123,14 +124,14 @@ test('dist pages include canonical URLs and social preview metadata', async () =
       description:
         'How I use Homebrew, a Brewfile, and a small upgrade script to keep my Mac environment up to date and easily manageable.',
       type: 'article',
-      image: `${origin}/og-image.png`,
+      image: `${origin}/og/blog/mac-app-maintenance-on-tap.png`,
     },
     {
       route: '/contact/',
       title: 'Contact | Seth Maxwell',
       description: 'Contact Seth Maxwell.',
       type: 'website',
-      image: `${origin}/og-image.png`,
+      image: `${origin}/og-image.jpg`,
     },
   ];
 
@@ -146,11 +147,11 @@ test('dist pages include canonical URLs and social preview metadata', async () =
     assert.equal(extractMetaContent(html, 'og:description'), page.description);
     assert.equal(extractMetaContent(html, 'og:type'), page.type);
     assert.equal(extractMetaContent(html, 'og:url'), `${origin}${page.route}`);
-    assert.equal(extractMetaContent(html, 'og:image'), page.image);
+    assertImage(extractMetaContent(html, 'og:image'), page.image);
     assert.equal(extractMetaContent(html, 'twitter:card'), 'summary_large_image');
     assert.equal(extractMetaContent(html, 'twitter:title'), page.title);
     assert.equal(extractMetaContent(html, 'twitter:description'), page.description);
-    assert.equal(extractMetaContent(html, 'twitter:image'), page.image);
+    assertImage(extractMetaContent(html, 'twitter:image'), page.image);
   }
 });
 
@@ -177,10 +178,78 @@ test('dist includes JSON-LD for the homepage profile and blog posts', async () =
   assert.equal(blogPosting.headline, 'Mac App Maintenance, on Tap');
   assert.equal(blogPosting.datePublished, '2026-05-22T00:00:00.000Z');
   assert.equal('dateModified' in blogPosting, false);
-  assert.equal(blogPosting.image, 'https://sethmaxwl.com/og-image.png');
+  assert.equal(blogPosting.image, `${origin}/og/blog/mac-app-maintenance-on-tap.png`);
   assert.equal(blogPosting.author?.['@type'], 'Person');
   assert.equal(blogPosting.author?.name, 'Seth Maxwell');
   assert.equal(blogPosting.author?.url, `${origin}/`);
+});
+
+test('dist includes an RSS feed listing every blog post', async () => {
+  const feed = await readFile(path.join(distRoot, 'rss.xml'), 'utf8');
+  const blogRoutes = await contentRoutes('src/content/blog', '/blog/');
+
+  assert.match(feed, /^<\?xml/);
+  assert.match(feed, /<language>en-us<\/language>/);
+  assert.equal(feed.match(/<item>/g)?.length, blogRoutes.length);
+
+  for (const route of blogRoutes) {
+    assert.ok(feed.includes(`<link>${origin}${route}</link>`), `RSS feed is missing ${route}`);
+  }
+
+  const homeHtml = await readFile(routeToHtmlPath('/'), 'utf8');
+  assert.match(homeHtml, /<link[^>]+rel="alternate"[^>]+type="application\/rss\+xml"/);
+});
+
+test('dist includes a 1200x630 social image for every blog post', async () => {
+  const blogRoutes = await contentRoutes('src/content/blog', '/blog/');
+
+  for (const route of blogRoutes) {
+    const slug = route.split('/').at(-2);
+    const png = await readFile(path.join(distRoot, 'og', 'blog', `${slug}.png`));
+
+    assert.equal(png.subarray(1, 4).toString('ascii'), 'PNG', `${slug}.png is not a PNG`);
+    assert.equal(png.readUInt32BE(16), 1200, `${slug}.png width`);
+    assert.equal(png.readUInt32BE(20), 630, `${slug}.png height`);
+  }
+});
+
+test('homepage lists recent projects and posts newest first', async () => {
+  const html = await readFile(routeToHtmlPath('/'), 'utf8');
+  const entries = [
+    ...html.matchAll(
+      /<time datetime="([^"]+)"[^>]*>[^<]*<\/time>(?:<span[^>]*>(Project|Post)<\/span>)?/g,
+    ),
+  ].map(([, datetime, kind]) => ({ datetime, kind }));
+
+  assert.ok(entries.length > 0, 'Homepage has no recent activity entries');
+  assert.ok(
+    entries.every((entry) => entry.kind),
+    'Every homepage entry is tagged',
+  );
+  assert.ok(entries.some((entry) => entry.kind === 'Project'));
+  assert.ok(entries.some((entry) => entry.kind === 'Post'));
+  assert.deepEqual(
+    entries.map((entry) => entry.datetime),
+    entries
+      .map((entry) => entry.datetime)
+      .toSorted()
+      .toReversed(),
+  );
+});
+
+test('blog posts show reading time and link to adjacent posts', async () => {
+  const newerHtml = await readFile(routeToHtmlPath('/blog/understanding-used-to-be-free/'), 'utf8');
+  const olderHtml = await readFile(routeToHtmlPath('/blog/mac-app-maintenance-on-tap/'), 'utf8');
+
+  for (const html of [newerHtml, olderHtml]) {
+    assert.match(html, /\d+ min read/);
+    assert.match(html, /<nav[^>]+aria-label="More posts"/);
+  }
+
+  assert.match(newerHtml, /href="\/blog\/mac-app-maintenance-on-tap\/"[^>]*rel="next"/);
+  assert.doesNotMatch(newerHtml, /rel="prev"/);
+  assert.match(olderHtml, /href="\/blog\/understanding-used-to-be-free\/"[^>]*rel="prev"/);
+  assert.doesNotMatch(olderHtml, /rel="next"/);
 });
 
 test('work imagery is emitted as responsive, optimized assets', async () => {
@@ -410,6 +479,14 @@ function extractAttributeValue(tag: string, attributeName: string): string | und
   const escapedAttributeName = attributeName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const match = tag.match(new RegExp(`\\s${escapedAttributeName}=["']([^"']*)["']`, 'i'));
   return match ? decodeHtmlAttribute(match[1]) : undefined;
+}
+
+function assertImage(actual: string | undefined, expected: string | RegExp) {
+  if (expected instanceof RegExp) {
+    assert.match(actual ?? '', expected);
+  } else {
+    assert.equal(actual, expected);
+  }
 }
 
 function extractJsonLdObjects(html: string): Record<string, any>[] {

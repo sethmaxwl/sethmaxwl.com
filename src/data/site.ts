@@ -1,5 +1,11 @@
 const email = 'sethmaxwl@gmail.com';
 
+const links = {
+  email: `mailto:${email}`,
+  github: 'https://github.com/sethmaxwl',
+  linkedin: 'https://linkedin.com/in/sethmaxwl/',
+} as const;
+
 export const site = {
   url: 'https://sethmaxwl.com',
   name: 'Seth Maxwell',
@@ -11,19 +17,15 @@ export const site = {
     jobTitle: 'Software Engineer',
     organization: 'Atlassian',
   },
-  links: {
-    email: `mailto:${email}`,
-    github: 'https://github.com/sethmaxwl',
-    linkedin: 'https://linkedin.com/in/sethmaxwl/',
-  },
+  links,
   nav: [
     { label: 'Work', href: '/work/' },
     { label: 'Blog', href: '/blog/' },
     { label: 'Contact', href: '/contact/' },
   ],
   footerLinks: [
-    { label: 'Email', href: 'mailto:sethmaxwl@gmail.com' },
-    { label: 'LinkedIn', href: 'https://linkedin.com/in/sethmaxwl/' },
-    { label: 'GitHub', href: 'https://github.com/sethmaxwl' },
+    { label: 'Email', href: links.email },
+    { label: 'LinkedIn', href: links.linkedin },
+    { label: 'GitHub', href: links.github },
   ],
 } as const;

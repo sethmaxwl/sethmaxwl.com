@@ -16,7 +16,7 @@ export function resolveSiteUrl(siteUrl?: URL): URL {
 export function createPageMetadata({
   title,
   description = site.description,
-  image = '/og-image.png',
+  image = '/og-image.jpg',
   type = 'website',
   pathname,
   siteUrl,

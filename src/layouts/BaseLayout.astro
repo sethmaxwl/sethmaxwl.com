@@ -60,6 +60,12 @@ const structuredDataJson = structuredData
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${site.name} | Blog`}
+      href={new URL('/rss.xml', Astro.site)}
+    />
     <meta name="theme-color" content="#fdf8f7" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={metadata.title} />

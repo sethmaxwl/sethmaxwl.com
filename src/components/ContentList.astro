@@ -1,28 +1,34 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import type { ContentListItem } from '@data/content';
 import { formatContentDate } from '../utils/formatDate';
 
 interface Props {
-  posts: CollectionEntry<'blog'>[];
+  items: ContentListItem[];
+  headingLevel?: 2 | 3;
+  showKind?: boolean;
 }
 
-const { posts } = Astro.props;
+const { items, headingLevel = 2, showKind = false } = Astro.props;
+const Heading = `h${headingLevel}` as const;
 ---
 
-<div class="blog-list">
-  {posts.map((post) => (
+<div class="content-list">
+  {items.map((item) => (
     <article>
-      <a href={`/blog/${post.id}/`}>
-        <time datetime={post.data.date.toISOString()}>{formatContentDate(post.data.date)}</time>
-        <h2>{post.data.title}</h2>
-        <p>{post.data.description}</p>
+      <a href={item.href}>
+        <div class="entry-meta">
+          <time datetime={item.date.toISOString()}>{formatContentDate(item.date)}</time>
+          {showKind && item.kind && <span class="entry-kind">{item.kind}</span>}
+        </div>
+        <Heading class="entry-title">{item.title}</Heading>
+        <p>{item.description}</p>
       </a>
     </article>
   ))}
 </div>
 
 <style>
-  .blog-list {
+  .content-list {
     border-top: 1px solid var(--color-outline);
   }
 
@@ -38,8 +44,10 @@ const { posts } = Astro.props;
     text-decoration: none;
   }
 
-  time,
-  span {
+  .entry-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
     color: var(--color-muted);
     font-size: 0.72rem;
     font-weight: 700;
@@ -47,7 +55,11 @@ const { posts } = Astro.props;
     text-transform: uppercase;
   }
 
-  h2 {
+  .entry-kind {
+    color: var(--color-accent);
+  }
+
+  .entry-title {
     margin: 0;
     font-family: var(--font-display);
     font-size: clamp(1.75rem, 3vw, 2.75rem);
@@ -66,6 +78,11 @@ const { posts } = Astro.props;
     a {
       grid-template-columns: 1fr;
       gap: 0.75rem;
+    }
+
+    .entry-meta {
+      flex-direction: row;
+      gap: 1rem;
     }
 
     p {

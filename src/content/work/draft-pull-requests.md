@@ -1,10 +1,10 @@
 ---
 title: 'Draft Pull Requests'
 description: 'How I helped developers share work early and signal intent clearly.'
+date: 2025-04-02
 thumbnail:
   src: './assets/draft-pull-requests.png'
   alt: 'A draft pull request button next to the create pull request button.'
-coverImage: '/images/draft-pull-requests.png'
 sortOrder: 2
 featuredRank: 2
 externalLink:

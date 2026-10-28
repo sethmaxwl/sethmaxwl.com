@@ -8,11 +8,11 @@ const work = defineCollection({
     z.object({
       title: z.string(),
       description: z.string(),
+      date: z.coerce.date(),
       thumbnail: z.object({
         src: image(),
         alt: z.string().min(1),
       }),
-      coverImage: z.string().regex(/^\/\S+$/, 'Expected a root-relative public asset path.'),
       sortOrder: z.number().int().nonnegative().optional(),
       featuredRank: z.number().int().positive().optional(),
       externalLink: z
@@ -31,7 +31,10 @@ const blog = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     updatedAt: z.coerce.date().optional(),
-    coverImage: z.string().regex(/^\/\S+$/, 'Expected a root-relative public asset path.'),
+    coverImage: z
+      .string()
+      .regex(/^\/\S+$/, 'Expected a root-relative public asset path.')
+      .optional(),
   }),
 });
 

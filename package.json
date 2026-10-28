@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "yarn@4.18.1",
   "engines": {
-    "node": "26.12.1"
+    "node": ">=26"
   },
   "type": "module",
   "scripts": {
@@ -22,16 +22,21 @@
     "preview:e2e": "astro preview --host localhost --port 4322"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.4.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
     "@emnapi/runtime": "^1.11.3",
+    "@fontsource/newsreader": "^5.3.0",
+    "@fontsource/public-sans": "^5.3.0",
     "@playwright/test": "^1.64.1",
     "@types/node": "^26.6.5",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.2",
+    "satori": "^0.63.2",
+    "sharp": "^0.35.4",
     "typescript": "^6.0.3"
   }
 }

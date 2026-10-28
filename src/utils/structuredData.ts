@@ -1,6 +1,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { site } from '../data/site.ts';
 import { resolveSiteUrl } from './metadata.ts';
+import { blogSocialImagePath } from './socialImage.ts';
 
 function createPersonStructuredData(siteUrl?: URL) {
   const baseUrl = resolveSiteUrl(siteUrl);
@@ -51,7 +52,7 @@ export function createBlogPostStructuredData(post: CollectionEntry<'blog'>, site
       '@type': 'WebPage',
       '@id': postUrl,
     },
-    image: new URL(post.data.coverImage, baseUrl).href,
+    image: new URL(blogSocialImagePath(post), baseUrl).href,
     author: createPersonStructuredData(baseUrl),
   };
 }

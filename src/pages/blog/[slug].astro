@@ -1,18 +1,22 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import { getBlogPosts } from '@data/content';
 import { formatContentDate } from '../../utils/formatDate';
+import { formatReadingTime } from '../../utils/readingTime';
 import { createBlogPostStructuredData } from '@utils/structuredData';
+import { blogSocialImagePath } from '@utils/socialImage';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map((post) => ({
+  const posts = await getBlogPosts();
+  return posts.map((post, index) => ({
     params: { slug: post.id },
-    props: { post },
+    props: { post, newerPost: posts[index - 1], olderPost: posts[index + 1] },
   }));
 }
 
-const { post } = Astro.props;
+const { post, newerPost, olderPost } = Astro.props;
 const { Content } = await render(post);
 const blogPostStructuredData = createBlogPostStructuredData(post, Astro.site);
 ---
@@ -20,7 +24,7 @@ const blogPostStructuredData = createBlogPostStructuredData(post, Astro.site);
 <BaseLayout
   title={post.data.title}
   description={post.data.description}
-  image={post.data.coverImage}
+  image={blogSocialImagePath(post)}
   type="article"
   structuredData={blogPostStructuredData}
 >
@@ -30,17 +34,48 @@ const blogPostStructuredData = createBlogPostStructuredData(post, Astro.site);
       <p class="subhead">{post.data.description}</p>
       <div class="article-meta">
         <time datetime={post.data.date.toISOString()}>{formatContentDate(post.data.date)}</time>
+        {post.data.updatedAt && (
+          <span>
+            Updated{' '}
+            <time datetime={post.data.updatedAt.toISOString()}>
+              {formatContentDate(post.data.updatedAt)}
+            </time>
+          </span>
+        )}
+        <span>{formatReadingTime(post.body ?? '')}</span>
       </div>
     </header>
     <div class="article-body markdown-content">
       <Content />
     </div>
   </article>
+  {(newerPost || olderPost) && (
+    <nav class="post-nav container" aria-label="More posts">
+      {newerPost && (
+        <a class="post-nav-link newer" href={`/blog/${newerPost.id}/`} rel="prev">
+          <Icon name="arrow-left" />
+          <span class="visually-hidden">Newer post:</span>
+          <span class="post-nav-title">{newerPost.data.title}</span>
+        </a>
+      )}
+      {olderPost && (
+        <a class="post-nav-link older" href={`/blog/${olderPost.id}/`} rel="next">
+          <span class="visually-hidden">Older post:</span>
+          <span class="post-nav-title">{olderPost.data.title}</span>
+          <Icon name="arrow-right" />
+        </a>
+      )}
+    </nav>
+  )}
 </BaseLayout>
 
 <style>
   .blog-article {
     padding-block: clamp(5rem, 12vw, 9rem);
+  }
+
+  .blog-article:has(+ .post-nav) {
+    padding-bottom: clamp(3rem, 6vw, 4.5rem);
   }
 
   header {
@@ -73,8 +108,79 @@ const blogPostStructuredData = createBlogPostStructuredData(post, Astro.site);
   }
 
   .article-body :global(p) {
-    color: var(--color-muted);
+    color: var(--color-ink);
     font-size: 1.08rem;
     line-height: 1.8;
+  }
+
+  .post-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    padding-block: 1.75rem clamp(3rem, 6vw, 4.5rem);
+    border-top: 1px solid var(--color-outline);
+  }
+
+  .post-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-self: start;
+    text-decoration: none;
+  }
+
+  .post-nav-link.older {
+    grid-column: 2;
+    justify-self: end;
+    text-align: right;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .post-nav-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+    line-height: 1.25;
+  }
+
+  .post-nav-link:hover .post-nav-title,
+  .post-nav-link:focus-visible .post-nav-title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  .post-nav-link :global(.site-icon) {
+    flex-shrink: 0;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    transition: transform 160ms ease;
+  }
+
+  .post-nav-link.newer:hover :global(.site-icon),
+  .post-nav-link.newer:focus-visible :global(.site-icon) {
+    transform: translateX(-0.15rem);
+  }
+
+  .post-nav-link.older:hover :global(.site-icon),
+  .post-nav-link.older:focus-visible :global(.site-icon) {
+    transform: translateX(0.15rem);
+  }
+
+  @media (max-width: 760px) {
+    .post-nav {
+      grid-template-columns: 1fr;
+    }
+
+    .post-nav-link.older {
+      grid-column: auto;
+    }
   }
 </style>

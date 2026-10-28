@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import ProjectFeature from '@components/ProjectFeature.astro';
 import PageIntro from '@components/PageIntro.astro';
-import { getFeaturedWorkProjects } from '@data/content';
+import ContentList from '@components/ContentList.astro';
+import Icon from '@components/Icon.astro';
+import { getRecentActivity } from '@data/content';
 import { createProfilePageStructuredData } from '@utils/structuredData';
 
-const featuredProjects = await getFeaturedWorkProjects();
+const recentActivity = await getRecentActivity(3);
 const profileStructuredData = createProfilePageStructuredData(Astro.site);
 ---
 
@@ -14,39 +15,57 @@ const profileStructuredData = createProfilePageStructuredData(Astro.site);
     title="Reducing sighs per click."
     description="I'm a software engineer at Atlassian working on Bitbucket Cloud, where I improve the code review experience and AI-assisted workflows."
   />
-  <section class="featured-work container">
-    <h3 class="headline">What I've been up to lately:</h3>
-    <div class="project-stack">
-      {featuredProjects.map((project, index) => (
-        <ProjectFeature project={project} href={`/work/${project.id}/`} reverse={index % 2 === 1} />
-      ))}
+  <section class="recent-activity container" aria-labelledby="recent-activity-heading">
+    <div class="section-header">
+      <h2 id="recent-activity-heading" class="headline">
+        What I've been up to lately
+      </h2>
     </div>
+    <ContentList items={recentActivity} headingLevel={3} showKind />
   </section>
 </BaseLayout>
 
 <style>
-  .hero {
-    display: flex;
-    flex-direction: column;
-    padding-block: 5rem;
-  }
-
-  .hero h1 {
-    max-width: 12ch;
-    margin: 0;
-  }
-
-  .hero .subhead {
-    max-width: 46rem;
-    margin: 2rem 0 0;
-  }
-
-  .featured-work {
+  .recent-activity {
     padding-bottom: clamp(5rem, 10vw, 9rem);
   }
 
-  .project-stack {
-    display: grid;
-    gap: clamp(5rem, 10vw, 9rem);
+  .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-header h2 {
+    margin: 0;
+  }
+
+  .section-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.75rem;
+  }
+
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .text-link :global(.site-icon) {
+    font-size: 0.95rem;
+    transition: transform 160ms ease;
+  }
+
+  .text-link:hover :global(.site-icon),
+  .text-link:focus-visible :global(.site-icon) {
+    transform: translateX(0.15rem);
   }
 </style>
